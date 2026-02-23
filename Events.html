@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>📅 MSU Events Calendar 🎓</title>
+    <style>
+        :root {
+            --msu-blue: #98E6EE;
+            --msu-gold: #D7BD19;
+            --msu-dark: #1a365d;
+        }
+        
+        body {
+            font-family: 'Comic Sans MS', Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--msu-blue) 0%, #e0f7fa 100%);
+            color: #2d3748;
+            line-height: 1.6;
+        }
+        header {
+            text-align: center;
+            background: linear-gradient(135deg, var(--msu-blue), var(--msu-gold));
+            color: var(--msu-dark);
+            padding: 50px 20px;
+            margin: -20px -20px 40px -20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        header::before {
+            content: '📅🎉📅';
+            position: absolute;
+            top: -50px; right: -50px;
+            font-size: 4em; opacity: 0.3; animation: bounce 2s infinite;
+        }
+        h1 { 
+            margin: 0; font-size: 3em; text-shadow: 2px 2px 4px rgba(255,255,255,0.8);
+            animation: wiggle 2s infinite;
+        }
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(2deg); }
+            75% { transform: rotate(-2deg); }
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .calendar {
+            background: rgba(255,255,255,0.95);
+            padding: 30px;
+            margin: 25px 0;
+            border-radius: 25px;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.15);
+            border: 4px solid transparent;
+            background-clip: padding-box;
+            position: relative;
+        }
+        .calendar::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 25px; padding: 4px;
+            background: linear-gradient(45deg, var(--msu-blue), var(--msu-gold));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+        }
+        
+        .event-card {
+            background: linear-gradient(135deg, var(--msu-blue) 0%, rgba(152,230,238,0.5) 100%);
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 20px;
+            border-left: 8px solid var(--msu-gold);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .event-card::before {
+            content: '🎓'; position: absolute; top: 20px; right: 20px;
+            font-size: 2em; opacity: 0.3;
+        }
+        .event-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 45px rgba(152,230,238,0.3);
+        }
+        
+        .event-date {
+            font-size: 1.4em; font-weight: bold; color: var(--msu-gold);
+            margin-bottom: 10px;
+        }
+        .event-title {
+            font-size: 2.2em; margin: 0 0 15px 0; color: var(--msu-dark);
+        }
+        .event-details {
+            font-size: 1.2em; margin-bottom: 15px;
+        }
+        
+        .rsvp-section {
+            background: rgba(255,255,255,0.8);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            border-left: 6px solid var(--msu-gold);
+        }
+        .rsvp-btn {
+            background: linear-gradient(45deg, var(--msu-gold), #f1c40f);
+            color: var(--msu-dark); border: none; padding: 15px 30px;
+            border-radius: 30px; font-size: 1.2em; font-weight: bold;
+            cursor: pointer; box-shadow: 0 5px 20px rgba(215,189,25,0.4);
+            transition: all 0.3s ease;
+        }
+        .rsvp-btn:hover {
+            transform: translateY(-3px); box-shadow: 0 10px 30px rgba(215,189,25,0.6);
+        }
+        
+        nav {
+            text-align: center; margin: 40px 0;
+        }
+        nav a {
+            display: inline-block; margin: 0 10px;
+            padding: 15px 25px; 
+            background: linear-gradient(45deg, var(--msu-blue), var(--msu-gold));
+            color: var(--msu-dark); text-decoration: none; border-radius: 50px;
+            font-weight: bold; box-shadow: 0 5px 15px rgba(152,230,238,0.4);
+            transition: all 0.3s ease;
+        }
+        nav a:hover { 
+            transform: translateY(-3px); box-shadow: 0 10px 25px rgba(152,230,238,0.6);
+        }
+        
+        .back-home {
+            display: block; width: 200px; margin: 30px auto;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>📅 MSU Events Calendar 🎓</h1>
+        <p style="font-size: 1.4em; margin-top: 10px;">MSU Gweru Math Club - March Madness!</p>
+    </header>
+
+    <nav>
+        <a href="Upgraded Math Site.html">🏠 Home</a>
+        <a href="#march">📅 March Events</a>
+        <a href="#april">📅 April Events</a>
+    </nav>
+
+    <div class="calendar" id="march">
+        <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 30px; color: var(--msu-dark);">March Madness! 🎲</h2>
+        
+        <div class="event-card">
+            <div class="event-date">📅 Friday, March 5th • 6:00 PM</div>
+            <h2 class="event-title">🎲 Stochastic Processes Party</h2>
+            <div class="event-details">
+                <p>🎯 Hands-on Markov chain simulations</p>
+                <p>💻 Monte Carlo methods workshop</p>
+                <p>🎁 Prizes for best probability predictions!</p>
+                <p>📍 MSU Math Lab - Senga Road, Gweru</p>
+            </div>
+            <div class="rsvp-section">
+                <p><strong>Spots left: 12/25</strong></p>
+                <button class="rsvp-btn" onclick="rsvp('Stochastic')">🎉 RSVP NOW!</button>
+            </div>
+        </div>
+
+        <div class="event-card">
+            <div class="event-date">📅 Friday, March 12th • 7:00 PM</div>
+            <h2 class="event-title">⚡ Simplex Speed Challenge</h2>
+            <div class="event-details">
+                <p>🏆 Fastest LP optimization wins PS5 voucher!</p>
+                <p>⏱️ Live pivot battles</p>
+                <p>👨‍🏫 Professor judging</p>
+                <p>📍 Gweru Gaming Cafe - Multi-screen setups</p>
+            </div>
+            <div class="rsvp-section">
+                <p><strong>Competitors: 8/16 spots</strong></p>
+                <button class="rsvp-btn" onclick="rsvp('Simplex')">⚡ SIGN UP!</button>
+            </div>
+        </div>
+
+        <div class="event-card">
+            <div class="event-date">📅 Saturday, March 20th • 8:00 PM</div>
+            <h2 class="event-title">🎮 Gaming + Math Night</h2>
+            <div class="event-details">
+                <p>🎯 Probability puzzles on PS5</p>
+                <p>📊 4K multi-screen glory</p>
+                <p>🍕 Pizza + energy drinks</p>
+                <p>📍 Gweru Central Gaming Cafe</p>
+            </div>
+            <div class="rsvp-section">
+                <p><strong>Spots: 18/30</strong></p>
+                <button class="rsvp-btn" onclick="rsvp('Gaming')">🎮 JOIN US!</button>
+            </div>
+        </div>
+    </div>
+
+    <a href="Index.html" class="back-home">
+        <button class="rsvp-btn" style="width: 100%; background: linear-gradient(45deg, var(--msu-blue), var(--msu-gold)); color: var(--msu-dark);">🏠 Back to Home</button>
+    </a>
+
+    <script>
+        function rsvp(event) {
+            alert(`🎓 YES! You're in for ${event}! Check your WhatsApp for MSU details! 🚀`);
+        }
+    </script>
+</body>
+</html>

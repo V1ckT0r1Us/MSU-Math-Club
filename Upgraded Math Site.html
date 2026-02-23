@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>🎓 MSU Math Club Hub 🎓</title>
+    <style>
+        :root {
+            --msu-blue: #98E6EE;
+            --msu-gold: #D7BD19;
+            --msu-dark: #1a365d;
+        }
+        
+        body {
+            font-family: 'Comic Sans MS', 'Arial', sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--msu-blue) 0%, #e0f7fa 100%);
+            color: #2d3748;
+            line-height: 1.6;
+        }
+        header {
+            text-align: center;
+            background: linear-gradient(135deg, var(--msu-blue), var(--msu-gold));
+            color: var(--msu-dark);
+            padding: 50px 20px;
+            margin: -20px -20px 40px -20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        header::before {
+            content: '🧮🧮🧮';
+            position: absolute;
+            top: -50px; right: -50px;
+            font-size: 4em; opacity: 0.3; animation: bounce 2s infinite;
+        }
+        h1 { 
+            margin: 0; font-size: 3em; text-shadow: 2px 2px 4px rgba(255,255,255,0.8);
+            animation: wiggle 2s infinite;
+        }
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(2deg); }
+            75% { transform: rotate(-2deg); }
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        h2 { 
+            color: var(--msu-gold); margin-top: 40px; 
+            font-size: 2.2em; text-align: center;
+            background: rgba(255,255,255,0.8); padding: 10px 20px;
+            border-radius: 50px; display: inline-block;
+            box-shadow: 0 5px 15px rgba(215,189,25,0.3);
+            border-left: 5px solid var(--msu-blue);
+        }
+        .events, .forum {
+            background: rgba(255,255,255,0.95);
+            padding: 30px;
+            margin: 25px 0;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            border: 3px solid transparent;
+            background-clip: padding-box;
+            position: relative;
+        }
+        .events::before, .forum::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 20px; padding: 3px;
+            background: linear-gradient(45deg, var(--msu-blue), var(--msu-gold));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+        }
+        .event, .post {
+            background: linear-gradient(135deg, var(--msu-blue) 0%, rgba(152,230,238,0.6) 100%);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 15px;
+            border-left: 6px solid var(--msu-gold);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        .event:hover, .post:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(152,230,238,0.3);
+        }
+        nav {
+            text-align: center;
+            margin: 40px 0;
+        }
+        nav a {
+            display: inline-block;
+            margin: 0 10px;
+            padding: 15px 25px;
+            background: linear-gradient(45deg, var(--msu-blue), var(--msu-gold));
+            color: var(--msu-dark);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(152,230,238,0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        nav a::before {
+            content: ''; position: absolute; top: 0; left: -100%;
+            width: 100%; height: 100%; background: rgba(255,255,255,0.3);
+            transition: left 0.3s ease;
+        }
+        nav a:hover::before { left: 0; }
+        nav a:hover { 
+            transform: translateY(-3px); 
+            box-shadow: 0 10px 25px rgba(152,230,238,0.6);
+        }
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 30px;
+            background: rgba(255,255,255,0.6);
+            border-radius: 20px;
+            color: var(--msu-dark);
+            font-size: 1.1em;
+            border-left: 5px solid var(--msu-gold);
+        }
+        .math-icon {
+            font-size: 2em; margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🎓 MSU Math Club Hub 🎓</h1>
+        <p style="font-size: 1.4em; margin-top: 10px;">Midlands State University Gweru - Math Superstars! 🚀</p>
+    </header>
+
+    <nav>
+        <a href="Events.html">📅 Events</a>
+        <a href="Forum.html">💬 Forum</a>
+        <a href="Tools.html">🧮 Tools</a>
+        <a href="Contact.html">📧 Contact</a>
+    </nav>
+
+    <div class="events">
+        <h2><span class="math-icon">📅</span>Upcoming MSU Events</h2>
+        <div class="event">
+            <h3>🎲 Stochastic Processes Party</h3>
+            <p><strong>March 5, 6PM</strong> - Markov chains & probability fun at MSU Math Lab!</p>
+            <p>🎁 Prizes for best simulations! 🎁</p>
+        </div>
+        <div class="event">
+            <h3>⚡ Simplex Speed Challenge</h3>
+            <p><strong>March 12, 7PM</strong> - Fastest optimization wins PS5 voucher!</p>
+        </div>
+        <div class="event">
+            <h3>🎮 Gaming + Math Night</h3>
+            <p><strong>March 20, 8PM</strong> - Probability puzzles at Gweru gaming cafes!</p>
+        </div>
+    </div>
+
+    <div class="forum">
+        <h2><span class="math-icon">💬</span>Hot MSU Forum Topics</h2>
+        <div class="post">
+            <h3>🔥 Dual Simplex SOS!</h3>
+            <p>Stuck on this: <code>z = 3x + 4y</code> with weird constraints. MSU help!</p>
+            <span>🌟 47 replies | 127 👍</span>
+        </div>
+        <div class="post">
+            <h3>💻 Best Stats Software?</h3>
+            <p>R, Python, or Stata for Zimbabwe economic data? PS5 multitasking tips?</p>
+            <span>🌟 28 replies | 89 👍</span>
+        </div>
+    </div>
+
+    <footer>
+        <p>🎓 © 2026 MSU Math Club Hub - Midlands State University Gweru 🎓<br>
+        Making math FUN since 2026! 🚀 | Senga Road, Gweru, Zimbabwe</p>
+    </footer>
+</body>
+</html>

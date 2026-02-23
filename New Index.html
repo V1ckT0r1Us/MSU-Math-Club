@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MSU Math Club Hub 🎓</title>
+    <style>
+        :root {
+            --msu-blue: #98E6EE;
+            --msu-gold: #D7BD19;
+            --msu-dark: #1a365d;
+            --msu-bg: linear-gradient(135deg, var(--msu-blue), #e0f7fa);
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Comic Sans MS', Arial, sans-serif;
+            background: var(--msu-bg);
+            color: var(--msu-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* FIXED MSU HEADER */
+        header {
+            text-align: center;
+            background: linear-gradient(135deg, var(--msu-blue), var(--msu-gold));
+            color: var(--msu-dark);
+            padding: 15px 20px;
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1001;
+            height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.2);
+            animation: wiggle 3s infinite;
+        }
+        header h1 { 
+            font-size: 1.8em; 
+            margin: 0;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
+        }
+        header p {
+            font-size: 0.9em;
+            margin: 0;
+            opacity: 0.95;
+            font-weight: bold;
+        }
+        @keyframes wiggle {
+            0%,100%{transform:rotate(0deg);}25%{transform:rotate(0.5deg);}75%{transform:rotate(-0.5deg);}
+        }
+        
+        /* MSU NAVIGATION */
+        .main-nav {
+            text-align: center;
+            padding: 12px 0;
+            background: rgba(255,255,255,0.98);
+            position: sticky;
+            top: 80px;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .main-nav a {
+            display: inline-block;
+            margin: 0 5px;
+            padding: 10px 18px;
+            color: var(--msu-dark);
+            text-decoration: none;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+        }
+        .main-nav a[href="home.html"] { 
+            background: linear-gradient(45deg, var(--msu-gold), #f1c40f);
+            box-shadow: 0 4px 15px rgba(215,189,25,0.4);
+        }
+        .main-nav a[href="events.html"] { 
+            background: linear-gradient(45deg, var(--msu-blue), #4fc3f7);
+            box-shadow: 0 4px 15px rgba(152,230,238,0.4);
+        }
+        .main-nav a[href="forum.html"] { 
+            background: linear-gradient(45deg, var(--msu-gold), var(--msu-blue));
+            box-shadow: 0 4px 15px rgba(152,230,238,0.3);
+        }
+        .main-nav a[href="tools.html"] { 
+            background: linear-gradient(45deg, var(--msu-gold), #ffd700);
+            box-shadow: 0 4px 15px rgba(215,189,25,0.4);
+        }
+        .main-nav a[href="contact.html"] { 
+            background: linear-gradient(45deg, var(--msu-blue), #b3e5fc);
+            box-shadow: 0 4px 15px rgba(152,230,238,0.4);
+        }
+        .main-nav a:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3) !important;
+        }
+        
+        .page-container {
+            margin-top: 120px;
+            padding: 20px;
+            min-height: 100vh;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .section {
+            background: rgba(255,255,255,0.95);
+            padding: 30px;
+            margin: 25px 0;
+            border-radius: 25px;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.15);
+            border: 4px solid transparent;
+            background-clip: padding-box;
+            position: relative;
+            border-image: linear-gradient(45deg, var(--msu-blue), var(--msu-gold)) 1;
+        }
+        
+        .hero-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 25px; 
+        }
+        .hero-card {
+            background: linear-gradient(135deg, var(--msu-blue), rgba(152,230,238,0.3));
+            padding: 25px;
+            border-radius: 20px;
+            border-left: 8px solid var(--msu-gold);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            transition: all 0.4s ease;
+        }
+        .hero-card:hover { 
+            transform: translateY(-10px); 
+            box-shadow: 0 20px 45px rgba(152,230,238,0.3); 
+        }
+        
+        .msu-badge {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: var(--msu-gold);
+            color: var(--msu-dark);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.8em;
+            box-shadow: 0 4px 15px rgba(215,189,25,0.4);
+            z-index: 1002;
+        }
+        
+        @media (max-width: 768px) {
+            header { height: 70px; padding: 10px 15px; }
+            header h1 { font-size: 1.5em; }
+            .main-nav { top: 70px; }
+            .page-container { margin-top: 110px; }
+            .main-nav a { display: block; margin: 4px 0; }
+        }
+    </style>
+</head>
+<body>
+    <!-- MSU OFFICIAL BADGE -->
+    <div class="msu-badge">🏆 MSU Gweru</div>
+    
+    <!-- MSU HEADER -->
+    <header>
+        <h1>🧮 MSU Math Club Hub</h1>
+        <p>Midlands State University • Gweru, Zimbabwe</p>
+    </header>
+
+    <!-- MSU COLORED NAV -->
+    <nav class="main-nav">
+        <a href="home.html">🏠 Home</a>
+        <a href="events.html">📅 Events</a>
+        <a href="forum.html">💬 Forum</a>
+        <a href="tools.html">🧮 Tools</a>
+        <a href="contact.html">📧 Contact</a>
+    </nav>
+
+    <div class="page-container">
+        <div class="section">
+            <h2 style="text-align: center; font-size: 2.5em; margin-bottom: 30px; color: var(--msu-dark);">
+                Welcome MSU Math Superstars! 🎓
+            </h2>
+            <div class="hero-grid">
+                <div class="hero-card">
+                    <h3 style="color: var(--msu-gold);">📅 March Events</h3>
+                    <p>Stochastic party • Simplex battle<br>
+                    <strong>PS5 vouchers for winners!</strong></p>
+                </div>
+                <div class="hero-card">
+                    <h3 style="color: var(--msu-gold);">💬 Hot Forum</h3>
+                    <p>Dual simplex help (47 replies)<br>
+                    Econometrics tools discussion</p>
+                </div>
+                <div class="hero-card">
+                    <h3 style="color: var(--msu-gold);">🧮 Live Solver</h3>
+                    <p>Instant simplex calculator<br>
+                    Desmos + GeoGebra integrated</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

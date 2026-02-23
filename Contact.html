@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>📧 MSU Contact Us 🎓</title>
+    <style>
+        :root {
+            --msu-blue: #98E6EE;
+            --msu-gold: #D7BD19;
+            --msu-dark: #1a365d;
+        }
+        
+        body {
+            font-family: 'Comic Sans MS', Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--msu-blue) 0%, #e0f7fa 100%);
+            color: #2d3748;
+            line-height: 1.6;
+        }
+        header {
+            text-align: center;
+            background: linear-gradient(135deg, var(--msu-blue), var(--msu-gold));
+            color: var(--msu-dark);
+            padding: 50px 20px;
+            margin: -20px -20px 40px -20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        header::before {
+            content: '📧📞💬';
+            position: absolute;
+            top: -50px; right: -50px;
+            font-size: 4em; opacity: 0.3; animation: bounce 2s infinite;
+        }
+        h1 { 
+            margin: 0; font-size: 3em; text-shadow: 2px 2px 4px rgba(255,255,255,0.8);
+            animation: wiggle 2s infinite;
+        }
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(2deg); }
+            75% { transform: rotate(-2deg); }
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .contact-container {
+            background: rgba(255,255,255,0.95);
+            padding: 30px;
+            margin: 25px 0;
+            border-radius: 25px;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.15);
+            border: 4px solid transparent;
+            background-clip: padding-box;
+            position: relative;
+        }
+        .contact-container::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 25px; padding: 4px;
+            background: linear-gradient(45deg, var(--msu-blue), var(--msu-gold));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+        }
+        
+        .contact-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
+            margin-bottom: 30px;
+        }
+        @media (max-width: 768px) {
+            .contact-grid { grid-template-columns: 1fr; gap: 30px; }
+        }
+        
+        .contact-card {
+            background: linear-gradient(135deg, var(--msu-blue) 0%, rgba(152,230,238,0.5) 100%);
+            padding: 30px;
+            border-radius: 20px;
+            border-left: 8px solid var(--msu-gold);
+            box-shadow: 0 10px 35px rgba(0,0,0,0.15);
+            transition: all 0.4s ease;
+        }
+        .contact-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 45px rgba(152,230,238,0.3);
+        }
+        
+        .contact-icon {
+            font-size: 4em; display: block; text-align: center;
+            margin-bottom: 15px;
+        }
+        .contact-title {
+            font-size: 2.2em; font-weight: bold; color: var(--msu-dark);
+            text-align: center; margin-bottom: 15px;
+        }
+        .contact-details {
+            font-size: 1.4em; text-align: center; color: #4a5568;
+        }
+        
+        .contact-form {
+            background: rgba(255,255,255,0.9);
+            padding: 30px;
+            border-radius: 20px;
+            border-left: 6px solid var(--msu-gold);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block; font-weight: bold; margin-bottom: 8px;
+            font-size: 1.2em; color: var(--msu-dark);
+        }
+        .form-group input, .form-group textarea {
+            width: 100%; padding: 15px; border: 2px solid #e2e8f0;
+            border-radius: 12px; font-size: 1.2em; font-family: inherit;
+            background: white; box-sizing: border-box;
+        }
+        .form-group textarea {
+            height: 120px; resize: vertical;
+        }
+        .send-btn {
+            background: linear-gradient(45deg, var(--msu-gold), #f1c40f);
+            color: var(--msu-dark); border: none; padding: 18px 40px;
+            border-radius: 30px; font-size: 1.4em; font-weight: bold;
+            cursor: pointer; box-shadow: 0 8px 25px rgba(215,189,25,0.4);
+            transition: all 0.3s ease; width: 100%;
+        }
+        .send-btn:hover {
+            transform: translateY(-4px); box-shadow: 0 15px 35px rgba(215,189,25,0.6);
+        }
+        
+        .social-links {
+            text-align: center; margin: 30px 0;
+        }
+        .social-links a {
+            display: inline-flex; align-items: center; gap: 10px;
+            margin: 0 15px; padding: 15px 25px;
+            background: linear-gradient(45deg, var(--msu-blue), var(--msu-gold));
+            color: var(--msu-dark); text-decoration: none; border-radius: 30px;
+            font-weight: bold; font-size: 1.2em;
+            box-shadow: 0 5px 15px rgba(152,230,238,0.4);
+            transition: all 0.3s ease;
+        }
+        .social-links a:hover {
+            transform: translateY(-3px); box-shadow: 0 10px 25px rgba(152,230,238,0.6);
+        }
+        
+        nav {
+            text-align: center; margin: 40px 0;
+        }
+        nav a {
+            display: inline-block; margin: 0 10px;
+            padding: 15px 25px; 
+            background: linear-gradient(45deg, var(--msu-blue), var(--msu-gold));
+            color: var(--msu-dark); text-decoration: none; border-radius: 50px;
+            font-weight: bold; box-shadow: 0 5px 15px rgba(152,230,238,0.4);
+            transition: all 0.3s ease;
+        }
+        nav a:hover { 
+            transform: translateY(-3px); box-shadow: 0 10px 25px rgba(152,230,238,0.6);
+        }
+        
+        .back-home {
+            display: block; width: 220px; margin: 40px auto;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>📧 MSU Get In Touch! 🎓</h1>
+        <p style="font-size: 1.4em; margin-top: 10px;">Connect with MSU Gweru Math Club! 🚀</p>
+    </header>
+
+    <nav>
+        <a href="Upgraded Math Site.html">🏠 Home</a>
+        <a href="Events.html">📅 Events</a>
+        <a href="Forum.html">💬 Forum</a>
+        <a href="Tools.html">🧮 Tools</a>
+    </nav>
+
+    <div class="contact-container">
+        <div class="contact-grid">
+            <div class="contact-card">
+                <div class="contact-icon">📧</div>
+                <h3 class="contact-title">Email Us</h3>
+                <div class="contact-details">
+                    mathclub@msu.ac.zw<br>
+                    <strong>Fastest response!</strong>
+                </div>
+            </div>
+
+            <div class="contact-card">
+                <div class="contact-icon">📱</div>
+                <h3 class="contact-title">WhatsApp</h3>
+                <div class="contact-details">
+                    +263 77 123 4567<br>
+                    <strong>Math help 24/7</strong>
+                </div>
+            </div>
+
+            <div class="contact-card">
+                <div class="contact-icon">📍</div>
+                <h3 class="contact-title">Visit Us</h3>
+                <div class="contact-details">
+                    Midlands State University<br>
+                    Math Department, Room 204<br>
+                    Senga Road, Gweru, ZW
+                </div>
+            </div>
+
+            <div class="contact-card">
+                <div class="contact-icon">🧑‍🏫</div>
+                <h3 class="contact-title">Club Leads</h3>
+                <div class="contact-details">
+                    President: Victor (+263 77 987 6543)<br>
+                    VP: Tinashe (+263 78 456 7890)
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-form">
+            <h2 style="text-align: center; font-size: 2.2em; margin-bottom: 25px; color: var(--msu-dark);">
+                💬 Send us a message!
+            </h2>
+            <form onsubmit="sendMessage(event)">
+                <div class="form-group">
+                    <label>🚀 Your Name</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label>📧 Your Email</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label>🎯 Subject</label>
+                    <input type="text" id="subject" placeholder="Simplex help? Event RSVP? Gaming math?" required>
+                </div>
+                <div class="form-group">
+                    <label>💬 Message</label>
+                    <textarea id="message" placeholder="Tell us about your math problem, event question, or gaming cafe idea!" required></textarea>
+                </div>
+                <button type="submit" class="send-btn">🚀 SEND MESSAGE!</button>
+            </form>
+        </div>
+
+        <div class="social-links">
+            <a href="#" onclick="joinDiscord()">
+                💬 Discord <span style="font-size: 1.5em;">→</span>
+            </a>
+            <a href="#" onclick="joinTelegram()">
+                ⚡ Telegram <span style="font-size: 1.5em;">→</span>
+            </a>
+            <a href="#" onclick="followInstagram()">
+                📸 Instagram <span style="font-size: 1.5em;">→</span>
+            </a>
+        </div>
+    </div>
+
+    <a href="Upgraded Math Site.html" class="back-home">
+        <button class="send-btn" style="width: 100%; background: linear-gradient(45deg, var(--msu-gold), #f1c40f);">🏠 Back to Home</button>
+    </a>
+
+    <script>
+        function sendMessage(event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            const subject = document.getElementById('subject').value;
+            alert(`🎉 Message sent from ${name}! "${subject}" received! We'll reply within 24hrs! 🚀`);
+            event.target.reset();
+        }
+        
+        function joinDiscord() {
+            alert('💬 Discord link: msu-mathclub-gweru\nJoin for live math help + gaming sessions! 🎮');
+        }
+        
+        function joinTelegram() {
+            alert('⚡ Telegram: @MSUMathClubGweru\nInstant math solutions + event updates!');
+        }
+        
+        function followInstagram() {
+            alert('📸 Instagram: @msugwerumathclub\nMath memes + event photos!');
+        }
+    </script>
+</body>
+</html>
