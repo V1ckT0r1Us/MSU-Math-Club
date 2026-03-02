@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>📅 MSU Events Calendar 🎓</title>
+    <title>💬 MSU Math Club Forum 🎓</title>
     <style>
         :root {
             --msu-blue: #98E6EE;
@@ -12,12 +12,40 @@
         
         body {
             font-family: 'Comic Sans MS', Arial, sans-serif;
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 0 auto;
             padding: 20px;
             background: linear-gradient(135deg, var(--msu-blue) 0%, #e0f7fa 100%);
             color: #2d3748;
             line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Floating Math Symbols Background */
+        .math-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.1;
+        }
+        
+        .math-bg span {
+            position: absolute;
+            font-size: 2.5em;
+            color: var(--msu-gold);
+            animation: floatMath 20s linear infinite;
+        }
+        
+        @keyframes floatMath {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.5; }
+            90% { opacity: 0.5; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
         }
         
         header {
@@ -30,10 +58,11 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             position: relative;
             overflow: hidden;
+            z-index: 1;
         }
         
         header::before {
-            content: '📅🎉📅';
+            content: '💬💬💬';
             position: absolute;
             top: -50px; right: -50px;
             font-size: 4em; opacity: 0.3; animation: bounce 2s infinite;
@@ -55,8 +84,9 @@
             50% { transform: translateY(-20px); }
         }
         
-        .calendar {
+        .forum-container {
             background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
             padding: 30px;
             margin: 25px 0;
             border-radius: 25px;
@@ -64,28 +94,117 @@
             border: 4px solid transparent;
             background-clip: padding-box;
             position: relative;
+            z-index: 2;
         }
         
-        .calendar::before {
+        .forum-container::before {
             content: '';
             position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            border-radius: 40px; 
-            padding: 4px;
+            border-radius: 25px; padding: 4px;
             background: linear-gradient(45deg, var(--msu-blue), var(--msu-gold));
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             mask-composite: exclude;
             pointer-events: none;
         }
         
-        .section-title {
-            font-size: 2.5em;
-            color: var(--msu-dark);
-            margin: 40px 0 20px;
-            padding-bottom: 10px;
-            border-bottom: 4px solid var(--msu-gold);
+        /* Stats Bar */
+        .forum-stats {
+            display: flex;
+            justify-content: space-around;
+            background: rgba(152,230,238,0.2);
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            border: 2px solid var(--msu-gold);
         }
         
-        .event-card {
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: var(--msu-gold);
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 1.1em;
+            color: var(--msu-dark);
+        }
+        
+        .forum-nav {
+            display: flex; 
+            gap: 15px; 
+            margin-bottom: 30px; 
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .forum-category {
+            padding: 12px 25px; 
+            background: linear-gradient(45deg, var(--msu-gold), #f1c40f);
+            color: var(--msu-dark); 
+            text-decoration: none; 
+            border-radius: 30px;
+            font-weight: bold; 
+            box-shadow: 0 5px 15px rgba(215,189,25,0.4);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .forum-category:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(215,189,25,0.6);
+        }
+        
+        .forum-category.active {
+            background: linear-gradient(45deg, var(--msu-blue), var(--msu-gold));
+            color: var(--msu-dark);
+            border: 2px solid white;
+        }
+        
+        /* Live Chat Indicator */
+        .live-chat {
+            background: rgba(37, 211, 102, 0.1);
+            border: 2px solid var(--whatsapp-green);
+            border-radius: 50px;
+            padding: 10px 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .live-chat i {
+            color: var(--whatsapp-green);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%,100%{transform: scale(1);}
+            50%{transform: scale(1.2);}
+        }
+        
+        .online-dot {
+            width: 10px;
+            height: 10px;
+            background: #10b981;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%,100%{opacity: 1;}
+            50%{opacity: 0.5;}
+        }
+        
+        .thread {
             background: linear-gradient(135deg, var(--msu-blue) 0%, rgba(152,230,238,0.5) 100%);
             padding: 25px;
             margin: 25px 0;
@@ -94,270 +213,205 @@
             box-shadow: 0 8px 25px rgba(0,0,0,0.15);
             transition: all 0.4s ease;
             position: relative;
-            overflow: hidden;
+            cursor: pointer;
         }
         
-        .event-card::before {
+        .thread::before {
             content: '🎓'; 
             position: absolute; 
-            top: 20px; 
-            right: 20px;
-            font-size: 2em; 
-            opacity: 0.3;
+            top: 25px; 
+            right: 25px;
+            font-size: 1.8em; 
+            opacity: 0.4;
+            animation: spin 10s linear infinite;
         }
         
-        .event-card.past {
-            opacity: 1;
-            border-left-color: #999;
-            background: linear-gradient(135deg, #f0f0f0, #ffffff);
+        @keyframes spin {
+            from{transform: rotate(0deg);}
+            to{transform: rotate(360deg);}
         }
         
-        .event-card.past::before {
-            content: '📸';
-        }
-        
-        .event-card.no-show {
-            border-left-color: #ff6b6b;
-            background: linear-gradient(135deg, #fff0f0, #ffffff);
-        }
-        
-        .event-card.no-show::before {
-            content: '😢';
-        }
-
-        .event-card.weekly {
-            border-left-color: #9b59b6;
-            background: linear-gradient(135deg, #f0e6ff, #ffffff);
-        }
-        
-        .event-card.weekly::before {
-            content: '📅';
-        }
-        
-        .event-card:hover {
-            transform: translateY(-10px) scale(1.02);
+        .thread:hover {
+            transform: translateY(-8px) scale(1.01);
             box-shadow: 0 20px 45px rgba(152,230,238,0.3);
         }
         
-        .event-date {
-            font-size: 1.4em; 
-            font-weight: bold; 
-            color: var(--msu-gold);
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
+        .thread.urgent {
+            border-left-color: #ff6b6b;
+            background: linear-gradient(135deg, #fff0f0, #ffe6e6);
         }
         
-        .past .event-date {
-            color: #666;
+        .thread.urgent::before {
+            content: '⚡';
+            color: #ff6b6b;
         }
         
-        .event-title {
-            font-size: 2.2em; 
-            margin: 0 0 15px 0; 
-            color: var(--msu-dark);
-        }
-        
-        .event-details {
-            font-size: 1.2em; 
+        .thread-header {
+            display: flex; 
+            justify-content: space-between; 
+            align-items: flex-start;
             margin-bottom: 15px;
         }
         
-        .event-details p {
-            margin: 8px 0;
+        .thread-title {
+            font-size: 2em; 
+            font-weight: bold; 
+            color: var(--msu-dark);
+            margin: 0;
             display: flex;
             align-items: center;
             gap: 10px;
         }
         
-        .event-details i {
-            color: var(--msu-gold);
-            width: 25px;
-        }
-        
-        .event-badge {
-            display: inline-block;
+        .thread-badge {
             background: var(--msu-gold);
             color: var(--msu-dark);
             padding: 5px 15px;
             border-radius: 20px;
-            font-size: 0.9em;
-            font-weight: bold;
-            margin-left: 10px;
+            font-size: 0.6em;
         }
         
-        .event-badge.past {
-            background: #999;
+        .thread-badge.solved {
+            background: #10b981;
             color: white;
         }
         
-        .event-badge.no-show {
-            background: #ff6b6b;
-            color: white;
-        }
-
-        .event-badge.weekly {
-            background: #9b59b6;
-            color: white;
-        }
-        
-        /* Image Gallery Section */
-        .event-gallery {
-            margin: 20px 0;
-            padding: 20px;
-            background: rgba(255,255,255,0.5);
-            border-radius: 15px;
-            border: 2px dashed var(--msu-gold);
-        }
-        
-        .gallery-title {
-            font-size: 1.3em;
-            color: var(--msu-dark);
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .gallery-title i {
-            color: var(--msu-gold);
-        }
-        
-        .image-upload-area {
-            border: 3px dashed var(--msu-gold);
-            border-radius: 15px;
-            padding: 30px;
-            text-align: center;
-            background: rgba(255,255,255,0.8);
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .image-upload-area:hover {
-            background: rgba(215,189,25,0.1);
-            border-color: var(--msu-blue);
-        }
-        
-        .image-upload-area i {
-            font-size: 3em;
-            color: var(--msu-gold);
-            margin-bottom: 10px;
-        }
-        
-        .image-upload-area p {
-            color: var(--msu-dark);
+        .thread-meta {
+            text-align: right; 
+            color: #666; 
             font-size: 1.1em;
         }
         
-        .image-upload-area small {
-            color: #666;
-            display: block;
-            margin-top: 10px;
+        .thread-snippet {
+            font-size: 1.3em; 
+            color: #4a5568; 
+            margin-bottom: 15px;
         }
         
-        .image-preview-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
+        .thread-equation {
+            background: rgba(255,255,255,0.9); 
+            padding: 15px 25px;
+            border-radius: 15px; 
+            font-family: 'Courier New', monospace; 
+            font-size: 1.4em;
+            border-left: 5px solid var(--msu-gold); 
+            margin: 15px 0;
+            overflow-x: auto;
         }
         
-        .image-preview-item {
-            position: relative;
-            border-radius: 10px;
-            overflow: hidden;
-            aspect-ratio: 1;
-            border: 3px solid var(--msu-gold);
-        }
-        
-        .image-preview-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .image-preview-item .remove-image {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            background: red;
-            color: white;
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
+        .thread-tags {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 1.2em;
-            border: none;
-        }
-        
-        .add-more-btn {
-            background: var(--msu-blue);
-            color: var(--msu-dark);
-            border: 2px dashed var(--msu-gold);
-            padding: 10px 20px;
-            border-radius: 30px;
-            cursor: pointer;
-            margin-top: 15px;
-            display: inline-flex;
-            align-items: center;
             gap: 10px;
-            font-weight: bold;
-        }
-        
-        .add-more-btn:hover {
-            background: var(--msu-gold);
-        }
-        
-        .rsvp-section {
-            background: rgba(255,255,255,0.8);
-            padding: 20px;
-            border-radius: 15px;
-            margin-top: 20px;
-            border-left: 6px solid var(--msu-gold);
-        }
-        
-        .rsvp-btn {
-            background: linear-gradient(45deg, var(--msu-gold), #f1c40f);
-            color: var(--msu-dark); 
-            border: none; 
-            padding: 15px 30px;
-            border-radius: 30px; 
-            font-size: 1.2em; 
-            font-weight: bold;
-            cursor: pointer; 
-            box-shadow: 0 5px 20px rgba(215,189,25,0.4);
-            transition: all 0.3s ease;
-            width: 100%;
-            max-width: 300px;
-        }
-        
-        .rsvp-btn:hover {
-            transform: translateY(-3px); 
-            box-shadow: 0 10px 30px rgba(215,189,25,0.6);
-        }
-        
-        .whatsapp-btn {
-            background: linear-gradient(45deg, var(--whatsapp-green), #128C7E);
-            color: white;
-        }
-        
-        .nav-bar {
-            text-align: center; 
-            margin: 40px 0;
-            display: flex;
-            justify-content: center;
-            gap: 15px;
+            margin: 15px 0;
             flex-wrap: wrap;
         }
         
-        .nav-bar a {
+        .tag {
+            background: rgba(255,255,255,0.5);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            color: var(--msu-dark);
+            border: 1px solid var(--msu-gold);
+        }
+        
+        .thread-stats {
+            display: flex; 
+            gap: 20px; 
+            font-size: 1.2em; 
+            color: var(--msu-gold);
+            font-weight: bold;
+            flex-wrap: wrap;
+        }
+        
+        .thread-stats i {
+            margin-right: 5px;
+        }
+        
+        .new-post-form {
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(5px);
+            padding: 25px;
+            border-radius: 20px;
+            margin: 30px 0;
+            border-left: 6px solid var(--msu-gold);
+        }
+        
+        .new-post-form input, .new-post-form textarea, .new-post-form select {
+            width: 100%; 
+            padding: 15px; 
+            margin: 10px 0;
+            border: 2px solid #e2e8f0; 
+            border-radius: 15px;
+            font-size: 1.2em; 
+            font-family: inherit;
+            background: white;
+            transition: all 0.3s;
+        }
+        
+        .new-post-form input:focus, .new-post-form textarea:focus, .new-post-form select:focus {
+            outline: none;
+            border-color: var(--msu-gold);
+            box-shadow: 0 0 0 4px rgba(215,189,25,0.2);
+        }
+        
+        .post-btn {
+            background: linear-gradient(45deg, var(--msu-gold), #f1c40f);
+            color: var(--msu-dark); 
+            border: none; 
+            padding: 18px 40px;
+            border-radius: 30px; 
+            font-size: 1.3em; 
+            font-weight: bold;
+            cursor: pointer; 
+            box-shadow: 0 8px 25px rgba(215,189,25,0.4);
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        .post-btn:hover {
+            transform: translateY(-4px); 
+            box-shadow: 0 15px 35px rgba(215,189,25,0.6);
+        }
+        
+        .quick-actions {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .quick-btn {
+            background: white;
+            border: 2px solid var(--msu-gold);
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: bold;
+            color: var(--msu-dark);
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .quick-btn:hover {
+            background: var(--msu-gold);
+            transform: translateY(-3px);
+        }
+        
+        nav {
+            text-align: center; 
+            margin: 40px 0;
+            z-index: 2;
+            position: relative;
+        }
+        
+        nav a {
             display: inline-block; 
-            padding: 12px 25px; 
+            margin: 0 10px;
+            padding: 15px 25px; 
             background: linear-gradient(45deg, var(--msu-blue), var(--msu-gold));
             color: var(--msu-dark); 
             text-decoration: none; 
@@ -367,500 +421,473 @@
             transition: all 0.3s ease;
         }
         
-        .nav-bar a:hover { 
+        nav a:hover { 
             transform: translateY(-3px); 
             box-shadow: 0 10px 25px rgba(152,230,238,0.6);
         }
         
         .back-home {
             display: block; 
-            width: 200px; 
+            width: 220px; 
             margin: 40px auto;
+            text-align: center;
         }
         
-        .month-divider {
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: white;
+            border-radius: 50px;
+            padding: 15px 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             display: flex;
             align-items: center;
-            gap: 20px;
-            margin: 40px 0 20px;
+            gap: 15px;
+            transform: translateX(400px);
+            transition: transform 0.4s;
+            z-index: 1000;
+            border-left: 5px solid var(--msu-gold);
         }
         
-        .month-divider h2 {
+        .toast.show {
+            transform: translateX(0);
+        }
+        
+        .toast-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--msu-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             color: var(--msu-dark);
-            font-size: 2em;
+            font-size: 1.5em;
         }
         
-        .month-divider-line {
-            flex: 1;
-            height: 3px;
-            background: linear-gradient(90deg, var(--msu-gold), transparent);
-        }
-        
-        /* No show message */
-        .no-show-message {
-            background: #ff6b6b;
-            color: white;
-            padding: 15px;
-            border-radius: 15px;
-            margin: 15px 0;
+        .loading {
             text-align: center;
-            font-weight: bold;
-            font-size: 1.2em;
+            padding: 40px;
+            display: none;
+        }
+        
+        .loading i {
+            font-size: 3em;
+            color: var(--msu-gold);
+            animation: spin 1s linear infinite;
         }
         
         @media (max-width: 768px) {
             h1 { font-size: 2em; }
-            .event-title { font-size: 1.6em; }
-            .event-details { font-size: 1em; }
+            .thread-title { font-size: 1.5em; }
+            .thread-equation { font-size: 1.1em; }
+            .forum-stats { flex-direction: column; gap: 15px; }
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
+    <!-- Floating Math Background -->
+    <div class="math-bg" id="mathBg"></div>
+
     <header>
-        <h1>📅 MSU Events Calendar 🎓</h1>
-        <p style="font-size: 1.4em; margin-top: 10px;">MSU Gweru Math Club - 2024 Events!</p>
+        <h1>💬 MSU Math Club Forum 🎓</h1>
+        <p style="font-size: 1.4em; margin-top: 10px;">MSU Gweru - Where math nerds solve problems together!</p>
     </header>
 
-    <div class="nav-bar">
+    <nav>
         <a href="Upgraded Math Site.html"><i class="fas fa-home"></i> Home</a>
-        <a href="#past"><i class="fas fa-history"></i> Past Events</a>
-        <a href="#upcoming"><i class="fas fa-calendar-alt"></i> Upcoming</a>
-        <a href="#weekly"><i class="fas fa-repeat"></i> Weekly</a>
-        <a href="#saturday"><i class="fas fa-calendar-week"></i> Saturday Gaming</a>
+        <a href="Events.html"><i class="fas fa-calendar-alt"></i> Events</a>
+        <a href="Tools.html"><i class="fas fa-cogs"></i> Tools</a>
         <a href="Contact.html"><i class="fas fa-envelope"></i> Contact</a>
-    </div>
+    </nav>
 
-    <!-- PAST EVENTS SECTION -->
-    <div class="calendar" id="past">
-        <h2 class="section-title"><i class="fas fa-history"></i> Past Events (Photo Gallery)</h2>
-        
-        <!-- Mini Expo - Last Week Friday -->
-        <div class="event-card past">
-            <div class="event-date">
-                <i class="fas fa-calendar-check"></i> Friday, February 23rd • 2:00 PM - 5:00 PM
-                <span class="event-badge past">Happened</span>
+    <div class="forum-container">
+        <!-- Live Stats -->
+        <div class="forum-stats">
+            <div class="stat-item">
+                <span class="stat-number" id="memberCount">247</span>
+                <span class="stat-label">🎓 Members</span>
             </div>
-            <h2 class="event-title">🎪 Mini Math & Tech Expo</h2>
-            <div class="event-details">
-                <p><i class="fas fa-flask"></i> Mathematics department research showcase</p>
-                <p><i class="fas fa-robot"></i> Tech demonstrations & math software exhibits</p>
-                <p><i class="fas fa-chart-bar"></i> Statistics projects from final year students</p>
-                <p><i class="fas fa-trophy"></i> Best exhibit awards presented</p>
-                <p><i class="fas fa-users"></i> 50+ attendees from MSU community</p>
-                <p><i class="fas fa-map-marker-alt"></i> Math Building, Main Hall</p>
+            <div class="stat-item">
+                <span class="stat-number" id="threadCount">1,892</span>
+                <span class="stat-label">💬 Threads</span>
             </div>
-            
-            <!-- Image Gallery for Mini Expo -->
-            <div class="event-gallery" id="expo-gallery">
-                <div class="gallery-title">
-                    <i class="fas fa-images"></i> Expo Photo Gallery
+            <div class="stat-item">
+                <span class="stat-number" id="onlineCount">23</span>
+                <span class="stat-label"><span class="online-dot"></span> Online Now</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" id="solvedCount">1,456</span>
+                <span class="stat-label">✅ Solved</span>
+            </div>
+        </div>
+
+        <!-- Live Chat Indicator -->
+        <div class="live-chat">
+            <i class="fab fa-whatsapp"></i>
+            <span><strong>12 members</strong> chatting in WhatsApp group now</span>
+            <button onclick="joinChat()" style="background: var(--whatsapp-green); border: none; padding: 5px 15px; border-radius: 20px; color: white; font-weight: bold; cursor: pointer;">Join</button>
+        </div>
+
+        <div class="forum-nav">
+            <a href="#" class="forum-category active" onclick="showCategory('all', event)">
+                <i class="fas fa-globe"></i> All Topics
+            </a>
+            <a href="#" class="forum-category" onclick="showCategory('optimization', event)">
+                <i class="fas fa-chart-line"></i> Optimization
+            </a>
+            <a href="#" class="forum-category" onclick="showCategory('stats', event)">
+                <i class="fas fa-chart-bar"></i> Statistics
+            </a>
+            <a href="#" class="forum-category" onclick="showCategory('gaming', event)">
+                <i class="fas fa-gamepad"></i> Gaming Math
+            </a>
+            <a href="#" class="forum-category" onclick="showCategory('algebra', event)">
+                <i class="fas fa-square-root-alt"></i> Algebra
+            </a>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <button class="quick-btn" onclick="quickQuestion('simplex')">
+                <i class="fas fa-question"></i> Simplex Help
+            </button>
+            <button class="quick-btn" onclick="quickQuestion('matrix')">
+                <i class="fas fa-th"></i> Matrix Problem
+            </button>
+            <button class="quick-btn" onclick="quickQuestion('derivative')">
+                <i class="fas fa-wave-square"></i> Derivatives
+            </button>
+            <button class="quick-btn" onclick="quickQuestion('probability')">
+                <i class="fas fa-dice"></i> Probability
+            </button>
+        </div>
+
+        <!-- New Post Form -->
+        <div class="new-post-form">
+            <h3 style="color: var(--msu-dark); margin-bottom: 20px;">
+                <i class="fas fa-feather-alt"></i> Start New Thread
+            </h3>
+            <input type="text" placeholder="Thread Title (e.g. Dual Simplex SOS!)" id="threadTitle">
+            <select id="threadCategory">
+                <option value="optimization">⚡ Optimization / Simplex</option>
+                <option value="stats">📊 Statistics / Econometrics</option>
+                <option value="gaming">🎮 Gaming Math</option>
+                <option value="algebra">🧮 Algebra / Calculus</option>
+                <option value="other">❓ Other</option>
+            </select>
+            <textarea rows="4" placeholder="What's your math problem? Share equations, matrices, or gaming math puzzles..." id="threadContent"></textarea>
+            <button class="post-btn" onclick="createThread()">
+                <i class="fas fa-paper-plane"></i> POST THREAD!
+            </button>
+        </div>
+
+        <!-- Loading Indicator -->
+        <div class="loading" id="loading">
+            <i class="fas fa-spinner"></i> Loading latest discussions...
+        </div>
+
+        <!-- Threads Container -->
+        <div id="threads">
+            <!-- Dual Simplex Thread (Urgent) -->
+            <div class="thread urgent" onclick="openThread('dual-simplex')">
+                <div class="thread-header">
+                    <h2 class="thread-title">
+                        🔥 Dual Simplex Hell - Need Pivot Help!
+                        <span class="thread-badge">URGENT</span>
+                    </h2>
+                    <div class="thread-meta">
+                        <i class="fas fa-user"></i> @mathwizardZW<br>
+                        <i class="fas fa-clock"></i> 2 hours ago
+                    </div>
                 </div>
-                <div class="image-upload-area" onclick="document.getElementById('expo-image-input').click()">
-                    <i class="fas fa-cloud-upload-alt"></i>
-                    <p>Click to upload Expo photos</p>
-                    <small>Show everyone what they missed!</small>
-                    <input type="file" id="expo-image-input" accept="image/*" multiple style="display: none;" onchange="handleImageUpload(event, 'expo-preview')">
+                <div class="thread-snippet">
+                    Stuck on degenerate cases. My matrix keeps cycling. Anyone solved z = 3x + 4y with these constraints?
                 </div>
-                <div class="image-preview-grid" id="expo-preview"></div>
-                <button class="add-more-btn" onclick="document.getElementById('expo-image-input').click()">
-                    <i class="fas fa-plus-circle"></i> Add More Photos
-                </button>
-            </div>
-            
-            <div class="rsvp-section">
-                <p><strong>✅ Expo was a success! Check out the photos above.</strong></p>
-            </div>
-        </div>
-
-        <!-- Club Initiation - March 4 (Dynamic) -->
-        <div class="event-card no-show" id="initiation-event">
-            <div class="event-date" id="initiation-date">
-                <i class="fas fa-calendar-check"></i> 📅 Monday, March 4th • 2:00 PM
-                <span class="event-badge no-show" id="initiation-badge">No Show 😢</span>
-            </div>
-            <h2 class="event-title">🎓 New Members Initiation Ceremony</h2>
-            <div class="no-show-message" id="initiation-message">
-                <i class="fas fa-sad-tear"></i> Unfortunately, no one showed up for the initiation today at 2 PM.
-                <br><strong>We'll reschedule soon! Stay tuned.</strong>
-            </div>
-            <div class="event-details">
-                <p><i class="fas fa-user-graduate"></i> Planned for 15+ new math club members</p>
-                <p><i class="fas fa-id-card"></i> Official club membership cards distribution</p>
-                <p><i class="fas fa-handshake"></i> Meet & greet with executive committee</p>
-                <p><i class="fas fa-calendar"></i> Overview of semester activities</p>
-                <p><i class="fas fa-pizza"></i> Welcome refreshments</p>
-                <p><i class="fas fa-map-marker-alt"></i> Math Building, Room 101</p>
-            </div>
-            
-            <!-- Image Gallery for Initiation -->
-            <div class="event-gallery" id="initiation-gallery">
-                <div class="gallery-title">
-                    <i class="fas fa-images"></i> Initiation Day Photos
+                <div class="thread-equation">
+                    Max Z = 3x₁ + 4x₂<br>
+                    1x₁ + 2x₂ ≤ 4<br>
+                    2x₁ + 1x₂ ≤ 6<br>
+                    x₁, x₂ ≥ 0
                 </div>
-                <div class="image-upload-area" onclick="document.getElementById('initiation-image-input').click()">
-                    <i class="fas fa-cloud-upload-alt"></i>
-                    <p>Click to upload photos</p>
-                    <small>Document the event</small>
-                    <input type="file" id="initiation-image-input" accept="image/*" multiple style="display: none;" onchange="handleImageUpload(event, 'initiation-preview')">
+                <div class="thread-tags">
+                    <span class="tag"><i class="fas fa-tag"></i> simplex</span>
+                    <span class="tag"><i class="fas fa-tag"></i> linear-programming</span>
+                    <span class="tag"><i class="fas fa-tag"></i> urgent</span>
                 </div>
-                <div class="image-preview-grid" id="initiation-preview"></div>
-                <button class="add-more-btn" onclick="document.getElementById('initiation-image-input').click()">
-                    <i class="fas fa-plus-circle"></i> Add Photos
-                </button>
+                <div class="thread-stats">
+                    <span><i class="fas fa-comment"></i> 47 replies</span>
+                    <span><i class="fas fa-thumbs-up"></i> 127 votes</span>
+                    <span><i class="fas fa-eye"></i> 342 views</span>
+                    <span><i class="fas fa-clock"></i> Last reply 10min ago</span>
+                </div>
             </div>
-            
-            <div class="rsvp-section" id="initiation-rsvp">
-                <p><strong id="initiation-status">😔 No attendees today. New date coming soon!</strong></p>
-                <button class="rsvp-btn" id="initiation-button" onclick="notifyMe('New Initiation Date')">🔔 NOTIFY FOR NEW DATE</button>
+
+            <!-- Econometrics Thread -->
+            <div class="thread" onclick="openThread('econometrics')">
+                <div class="thread-header">
+                    <h2 class="thread-title">
+                        💻 Best Econometrics Tools for Zim Data?
+                    </h2>
+                    <div class="thread-meta">
+                        <i class="fas fa-user"></i> @statsguru<br>
+                        <i class="fas fa-clock"></i> 1 day ago
+                    </div>
+                </div>
+                <div class="thread-snippet">
+                    R, Python, or Stata? Need something that works with Zimbabwe economic data + PS5 multitasking.
+                </div>
+                <div class="thread-equation">
+                    Y = β₀ + β₁X₁ + β₂X₂ + ε<br>
+                    Where X₁ = GDP, X₂ = Inflation
+                </div>
+                <div class="thread-tags">
+                    <span class="tag"><i class="fas fa-tag"></i> econometrics</span>
+                    <span class="tag"><i class="fas fa-tag"></i> R</span>
+                    <span class="tag"><i class="fas fa-tag"></i> python</span>
+                </div>
+                <div class="thread-stats">
+                    <span><i class="fas fa-comment"></i> 28 replies</span>
+                    <span><i class="fas fa-thumbs-up"></i> 89 votes</span>
+                    <span><i class="fas fa-eye"></i> 256 views</span>
+                </div>
+            </div>
+
+            <!-- Gaming Math Thread -->
+            <div class="thread" onclick="openThread('gaming-math')">
+                <div class="thread-header">
+                    <h2 class="thread-title">
+                        🎮 PS5 Math Puzzles for Gaming Cafe
+                        <span class="thread-badge">HOT</span>
+                    </h2>
+                    <div class="thread-meta">
+                        <i class="fas fa-user"></i> @gwerugamer<br>
+                        <i class="fas fa-clock"></i> 3 days ago
+                    </div>
+                </div>
+                <div class="thread-snippet">
+                    Probability games for March 20th event. Need puzzles that work on 4K multi-screen setups!
+                </div>
+                <div class="thread-equation">
+                    P(win) = ∫₀¹ f(x) dx  where f(x) = probability density
+                </div>
+                <div class="thread-tags">
+                    <span class="tag"><i class="fas fa-tag"></i> probability</span>
+                    <span class="tag"><i class="fas fa-tag"></i> gaming</span>
+                    <span class="tag"><i class="fas fa-tag"></i> ps5</span>
+                </div>
+                <div class="thread-stats">
+                    <span><i class="fas fa-comment"></i> 15 replies</span>
+                    <span><i class="fas fa-thumbs-up"></i> 42 votes</span>
+                    <span><i class="fas fa-eye"></i> 189 views</span>
+                </div>
+            </div>
+
+            <!-- Solved Thread Example -->
+            <div class="thread" onclick="openThread('matrix-solved')">
+                <div class="thread-header">
+                    <h2 class="thread-title">
+                        ✅ Matrix Inversion Trick - SOLVED
+                        <span class="thread-badge solved">SOLVED</span>
+                    </h2>
+                    <div class="thread-meta">
+                        <i class="fas fa-user"></i> @matrixman<br>
+                        <i class="fas fa-clock"></i> 5 days ago
+                    </div>
+                </div>
+                <div class="thread-snippet">
+                    Found an easier way to invert 3x3 matrices using cofactors. Step-by-step guide inside!
+                </div>
+                <div class="thread-equation">
+                    A⁻¹ = (1/det(A)) × adj(A)
+                </div>
+                <div class="thread-tags">
+                    <span class="tag"><i class="fas fa-tag"></i> matrices</span>
+                    <span class="tag"><i class="fas fa-tag"></i> linear-algebra</span>
+                    <span class="tag"><i class="fas fa-tag"></i> solved</span>
+                </div>
+                <div class="thread-stats">
+                    <span><i class="fas fa-comment"></i> 34 replies</span>
+                    <span><i class="fas fa-thumbs-up"></i> 156 votes</span>
+                    <span><i class="fas fa-eye"></i> 412 views</span>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- MARCH EVENTS SECTION -->
-    <div class="calendar" id="upcoming">
-        <h2 class="section-title"><i class="fas fa-calendar-alt"></i> March 2024 Events</h2>
-
-        <!-- Innovation Pitches - March 13 (No venue yet) -->
-        <div class="event-card">
-            <div class="event-date">
-                <i class="fas fa-calendar"></i> 📅 Wednesday, March 13th • 2:00 PM
-                <span class="event-badge">🔥 HIGHLIGHT</span>
-            </div>
-            <h2 class="event-title">💡 Innovation Pitches Presentation</h2>
-            <div class="event-details">
-                <p><i class="fas fa-lightbulb"></i> Math-based business ideas & innovations</p>
-                <p><i class="fas fa-presentation"></i> Final year students pitch their projects</p>
-                <p><i class="fas fa-judge"></i> Panel of judges from industry</p>
-                <p><i class="fas fa-trophy"></i> Seed funding for winning pitch</p>
-                <p><i class="fas fa-map-marker-alt"></i> <strong>📍 Venue:</strong> <span style="color: #ff6b6b;">To Be Announced (Check back later)</span></p>
-                <p><i class="fas fa-clock"></i> Venue will be confirmed 2 days before event</p>
-            </div>
-            <div class="rsvp-section">
-                <p><strong>🎯 Don't miss these groundbreaking ideas!</strong></p>
-                <button class="rsvp-btn" onclick="rsvp('Innovation Pitches')">🎤 REGISTER TO ATTEND</button>
-                <button class="rsvp-btn whatsapp-btn" style="margin-top: 10px;" onclick="notifyMe('Innovation Venue')">
-                    <i class="fab fa-whatsapp"></i> NOTIFY ME WHEN VENUE IS SET
-                </button>
-            </div>
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <div class="toast-icon">
+            <i class="fas fa-check"></i>
         </div>
-
-        <!-- Club Launch - Rescheduled -->
-        <div class="event-card">
-            <div class="event-date">
-                <i class="fas fa-calendar"></i> 📅 Monday, March 11th • 3:00 PM
-                <span class="event-badge">📌 NEW DATE</span>
-            </div>
-            <h2 class="event-title">🚀 Official Club Launch</h2>
-            <div class="event-details">
-                <p><i class="fas fa-megaphone"></i> (Rescheduled from Friday March 8th)</p>
-                <p><i class="fas fa-star"></i> Guest speaker: Dr. Mathema - "Math in Modern World"</p>
-                <p><i class="fas fa-cut"></i> Ribbon cutting ceremony</p>
-                <p><i class="fas fa-calendar"></i> Reveal of full semester calendar</p>
-                <p><i class="fas fa-cake"></i> Celebration cake & refreshments</p>
-                <p><i class="fas fa-map-marker-alt"></i> Main Hall, Mathematics Department</p>
-            </div>
-            <div class="rsvp-section">
-                <p><strong>Spots: 45/100 reserved</strong></p>
-                <button class="rsvp-btn" onclick="rsvp('Club Launch')">🎉 RSVP FOR LAUNCH</button>
-            </div>
-        </div>
-
-        <!-- Simplex Speed Challenge -->
-        <div class="event-card">
-            <div class="event-date">
-                <i class="fas fa-calendar"></i> 📅 Friday, March 15th • 7:00 PM
-                <span class="event-badge">⚡ COMPETITION</span>
-            </div>
-            <h2 class="event-title">⚡ Simplex Speed Challenge</h2>
-            <div class="event-details">
-                <p><i class="fas fa-trophy"></i> Fastest LP optimization wins PS5 voucher!</p>
-                <p><i class="fas fa-stopwatch"></i> Live pivot battles</p>
-                <p><i class="fas fa-chalkboard-teacher"></i> Professor judging</p>
-                <p><i class="fas fa-map-marker-alt"></i> Gweru Gaming Cafe - Multi-screen setups</p>
-            </div>
-            <div class="rsvp-section">
-                <p><strong>Competitors: 8/16 spots</strong></p>
-                <button class="rsvp-btn" onclick="rsvp('Simplex Challenge')">⚡ SIGN UP!</button>
-            </div>
+        <div>
+            <div style="font-weight: bold;" id="toastTitle">Success!</div>
+            <div id="toastMessage">Your thread was created</div>
         </div>
     </div>
 
-    <!-- WEEKLY EVENTS SECTION -->
-    <div class="calendar" id="weekly">
-        <h2 class="section-title"><i class="fas fa-repeat"></i> Weekly Events</h2>
-        
-        <!-- Weekly Math Seminar -->
-        <div class="event-card weekly">
-            <div class="event-date">
-                <i class="fas fa-calendar-week"></i> Every Wednesday • 3:00 PM - 5:00 PM
-                <span class="event-badge weekly">📚 WEEKLY</span>
-            </div>
-            <h2 class="event-title">📖 Mathematics Research Seminar</h2>
-            <div class="event-details">
-                <p><i class="fas fa-graduation-cap"></i> Final year & Masters students present dissertations</p>
-                <p><i class="fas fa-search"></i> Topics: Pure Math, Applied Math, Statistics</p>
-                <p><i class="fas fa-question"></i> Q&A session after each presentation</p>
-                <p><i class="fas fa-coffee"></i> Tea & discussion afterward</p>
-                <p><i class="fas fa-map-marker-alt"></i> Math Seminar Room, 2nd Floor</p>
-            </div>
-            <div class="rsvp-section">
-                <p><strong>Next presentation: Wednesday March 6th - "Topology Applications" by T. Mukono</strong></p>
-                <button class="rsvp-btn whatsapp-btn" onclick="joinSeminarGroup()">
-                    <i class="fab fa-whatsapp"></i> JOIN SEMINAR WHATSAPP GROUP
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- SATURDAY GAMING SECTION -->
-    <div class="calendar" id="saturday">
-        <h2 class="section-title"><i class="fas fa-gamepad"></i> Saturday Gaming Nights 🎮</h2>
-        
-        <!-- Weekly Gaming Night - Every Saturday -->
-        <div class="event-card weekly">
-            <div class="event-date">
-                <i class="fas fa-calendar-week"></i> Every Saturday • 7:00 PM - Late
-                <span class="event-badge weekly">🎮 WEEKLY</span>
-            </div>
-            <h2 class="event-title">🎮 Saturday Gaming + Math Night</h2>
-            <div class="event-details">
-                <p><i class="fas fa-dice"></i> Probability puzzles on PS5</p>
-                <p><i class="fas fa-chart-line"></i> 4K multi-screen gaming</p>
-                <p><i class="fas fa-pizza"></i> Pizza + energy drinks available</p>
-                <p><i class="fas fa-trophy"></i> Weekly tournament with prizes</p>
-                <p><i class="fas fa-calculator"></i> Math challenges between games</p>
-                <p><i class="fas fa-map-marker-alt"></i> Gweru Central Gaming Cafe</p>
-            </div>
-            <div class="rsvp-section">
-                <p><strong>🎮 Every Saturday night! Next session: This Saturday, March 9th</strong></p>
-                <p><i class="fas fa-users"></i> Regular attendees: 12-20 players</p>
-                <button class="rsvp-btn whatsapp-btn" onclick="joinGamingGroup()">
-                    <i class="fab fa-whatsapp"></i> JOIN GAMING WHATSAPP GROUP
-                </button>
-                <button class="rsvp-btn" style="margin-top: 10px;" onclick="rsvp('Saturday Gaming')">
-                    🎮 I'M COMING THIS SATURDAY
-                </button>
-            </div>
-        </div>
-
-        <!-- Upcoming Saturday Dates -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px;">
-            <div style="background: rgba(152,230,238,0.2); padding: 15px; border-radius: 15px; text-align: center;">
-                <i class="fas fa-calendar" style="color: var(--msu-gold); font-size: 2em;"></i>
-                <h3>March 9th</h3>
-                <p>Casual Night</p>
-            </div>
-            <div style="background: rgba(152,230,238,0.2); padding: 15px; border-radius: 15px; text-align: center;">
-                <i class="fas fa-calendar" style="color: var(--msu-gold); font-size: 2em;"></i>
-                <h3>March 16th</h3>
-                <p>Tournament</p>
-            </div>
-            <div style="background: rgba(152,230,238,0.2); padding: 15px; border-radius: 15px; text-align: center;">
-                <i class="fas fa-calendar" style="color: var(--msu-gold); font-size: 2em;"></i>
-                <h3>March 23rd</h3>
-                <p>Special Event</p>
-            </div>
-            <div style="background: rgba(152,230,238,0.2); padding: 15px; border-radius: 15px; text-align: center;">
-                <i class="fas fa-calendar" style="color: var(--msu-gold); font-size: 2em;"></i>
-                <h3>March 30th</h3>
-                <p>Finals Prep</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- UPCOMING ACTIVITIES (TBA) -->
-    <div class="calendar">
-        <h2 class="section-title"><i class="fas fa-clock"></i> Coming Soon (TBA)</h2>
-        
-        <div class="event-card">
-            <div class="event-date">
-                <i class="fas fa-hourglass-half"></i> Date TBA • Coming Months
-            </div>
-            <h2 class="event-title">🌍 High School Outreach Programmes</h2>
-            <div class="event-details">
-                <p><i class="fas fa-school"></i> Visiting high schools in Gweru and surrounding areas</p>
-                <p><i class="fas fa-chalkboard"></i> Math clinics and career guidance</p>
-                <p><i class="fas fa-hands-helping"></i> Encourage girls in STEM</p>
-                <p><i class="fas fa-bus"></i> Transport provided for volunteers</p>
-            </div>
-            <div class="rsvp-section">
-                <p><strong>Volunteer sign-ups opening soon!</strong></p>
-                <button class="rsvp-btn" onclick="notifyMe('Outreach')">🔔 NOTIFY ME WHEN DATES SET</button>
-            </div>
-        </div>
-
-        <div class="event-card">
-            <div class="event-date">
-                <i class="fas fa-hourglass-half"></i> Date TBA • Coming Months
-            </div>
-            <h2 class="event-title">🚌 Educational Field Trips</h2>
-            <div class="event-details">
-                <p><i class="fas fa-industry"></i> Visit to Zimbabwe Statistics Agency (ZIMSTAT)</p>
-                <p><i class="fas fa-university"></i> National University of Science and Technology (NUST)</p>
-                <p><i class="fas fa-robot"></i> Tech companies in Bulawayo</p>
-                <p><i class="fas fa-bus"></i> All expenses covered by department</p>
-            </div>
-            <div class="rsvp-section">
-                <p><strong>Priority given to active club members</strong></p>
-                <button class="rsvp-btn" onclick="notifyMe('Field Trips')">🔔 NOTIFY ME WHEN DATES SET</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="nav-bar" style="margin-top: 30px;">
-        <a href="#past"><i class="fas fa-arrow-up"></i> Back to Top</a>
-    </div>
-
-    <a href="Index.html" class="back-home">
-        <button class="rsvp-btn" style="width: 100%; background: linear-gradient(45deg, var(--msu-blue), var(--msu-gold)); color: var(--msu-dark);">
+    <a href="index.html" class="back-home">
+        <button class="post-btn" style="background: linear-gradient(45deg, var(--msu-blue), var(--msu-gold)); color: var(--msu-dark);">
             <i class="fas fa-home"></i> Back to Home
         </button>
     </a>
 
     <script>
-        // ===== DYNAMIC DATE CHECKING =====
-        function updateEventDates() {
-            const today = new Date();
-            const eventDate = new Date('March 4, 2024');
+        // ===== CREATE FLOATING MATH SYMBOLS =====
+        function createMathBackground() {
+            const symbols = ['π', '∑', '∫', '√', '∞', '≠', '≈', '≤', '≥', '∂', '∇', '∏', '∈', 'α', 'β', 'γ', 'θ', 'λ', 'σ', 'ω', '±', '÷', '×', '∫', '∑', '∏', '√', '∞'];
+            const container = document.getElementById('mathBg');
             
-            // Compare dates
-            if (today > eventDate) {
-                // It's after March 4 - update to past event
-                const eventCard = document.getElementById('initiation-event');
-                const dateSpan = document.getElementById('initiation-date');
-                const badge = document.getElementById('initiation-badge');
-                const message = document.getElementById('initiation-message');
-                const status = document.getElementById('initiation-status');
-                const button = document.getElementById('initiation-button');
+            for (let i = 0; i < 30; i++) {
+                const span = document.createElement('span');
+                span.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                span.style.left = Math.random() * 100 + '%';
+                span.style.animationDuration = (15 + Math.random() * 20) + 's';
+                span.style.animationDelay = Math.random() * 10 + 's';
+                span.style.fontSize = (1 + Math.random() * 3) + 'em';
+                container.appendChild(span);
+            }
+        }
+
+        // ===== FORUM FUNCTIONS =====
+        let threadCount = 1892;
+        let onlineCount = 23;
+        
+        function createThread() {
+            const title = document.getElementById('threadTitle').value;
+            const category = document.getElementById('threadCategory').value;
+            const content = document.getElementById('threadContent').value;
+            
+            if (title && content) {
+                // Show loading
+                document.getElementById('loading').style.display = 'block';
                 
-                // Update card class
-                eventCard.classList.remove('no-show');
-                eventCard.classList.add('past');
-                
-                // Update date display
-                dateSpan.innerHTML = '<i class="fas fa-calendar-check"></i> 📅 Monday, March 4th • 2:00 PM <span class="event-badge past">Past Event</span>';
-                
-                // Update message
-                message.innerHTML = '<i class="fas fa-calendar-check"></i> Initiation ceremony was held on March 4th, 2024.<br><strong>Low attendance. New date coming soon!</strong>';
-                message.style.background = 'var(--msu-gold)';
-                message.style.color = 'var(--msu-dark)';
-                
-                // Update status
-                status.innerHTML = '📅 Event passed. New date being scheduled.';
-                
-                // Button stays the same
+                setTimeout(() => {
+                    document.getElementById('loading').style.display = 'none';
+                    
+                    // Update counters
+                    threadCount++;
+                    document.getElementById('threadCount').textContent = threadCount.toLocaleString();
+                    
+                    // Show success toast
+                    showToast('🎉 Thread Created!', `"${title}" is now live in ${category} category`);
+                    
+                    // Clear form
+                    document.getElementById('threadTitle').value = '';
+                    document.getElementById('threadContent').value = '';
+                    
+                    // Random online users increase
+                    onlineCount += Math.floor(Math.random() * 5);
+                    document.getElementById('onlineCount').textContent = onlineCount;
+                }, 1500);
+            } else {
+                showToast('⚠️ Error', 'Please fill in both title and message', 'error');
             }
         }
         
-        // ===== IMAGE HANDLING WITH LOCAL STORAGE =====
-        function saveImagesToStorage() {
-            const expoPreview = document.getElementById('expo-preview');
-            const initiationPreview = document.getElementById('initiation-preview');
+        function showCategory(category, event) {
+            event.preventDefault();
             
-            if (expoPreview && expoPreview.children.length > 0) {
-                const expoImages = [];
-                for (let img of expoPreview.querySelectorAll('img')) {
-                    expoImages.push(img.src);
-                }
-                localStorage.setItem('expoImages', JSON.stringify(expoImages));
+            // Update active state
+            document.querySelectorAll('.forum-category').forEach(cat => cat.classList.remove('active'));
+            event.target.closest('a').classList.add('active');
+            
+            // Show loading
+            document.getElementById('loading').style.display = 'block';
+            
+            setTimeout(() => {
+                document.getElementById('loading').style.display = 'none';
+                showToast('🔍 Filter Applied', `Showing ${category} threads`);
+            }, 800);
+        }
+        
+        function openThread(id) {
+            showToast('📖 Opening Thread', `Loading ${id} discussion...`);
+        }
+        
+        function quickQuestion(type) {
+            let title = '';
+            let content = '';
+            
+            switch(type) {
+                case 'simplex':
+                    title = 'Simplex Method Question';
+                    content = 'I need help with the two-phase method...';
+                    break;
+                case 'matrix':
+                    title = 'Matrix Determinant Help';
+                    content = 'How do I find the determinant of a 4x4 matrix?';
+                    break;
+                case 'derivative':
+                    title = 'Derivative of Complex Function';
+                    content = 'What is d/dx of ln(x² + sin x)?';
+                    break;
+                case 'probability':
+                    title = 'Probability Puzzle';
+                    content = 'If I roll 2 dice, what is P(sum > 7)?';
+                    break;
             }
             
-            if (initiationPreview && initiationPreview.children.length > 0) {
-                const initiationImages = [];
-                for (let img of initiationPreview.querySelectorAll('img')) {
-                    initiationImages.push(img.src);
-                }
-                localStorage.setItem('initiationImages', JSON.stringify(initiationImages));
-            }
+            document.getElementById('threadTitle').value = title;
+            document.getElementById('threadContent').value = content;
+            
+            // Scroll to form
+            document.querySelector('.new-post-form').scrollIntoView({ behavior: 'smooth' });
         }
         
-        function loadImagesFromStorage() {
-            // Load Expo images
-            const expoImages = JSON.parse(localStorage.getItem('expoImages') || '[]');
-            const expoPreview = document.getElementById('expo-preview');
-            if (expoPreview && expoImages.length > 0) {
-                expoImages.forEach(src => {
-                    addImageToPreview(src, expoPreview);
-                });
-            }
-            
-            // Load Initiation images
-            const initiationImages = JSON.parse(localStorage.getItem('initiationImages') || '[]');
-            const initiationPreview = document.getElementById('initiation-preview');
-            if (initiationPreview && initiationImages.length > 0) {
-                initiationImages.forEach(src => {
-                    addImageToPreview(src, initiationPreview);
-                });
-            }
+        function joinChat() {
+            showToast('📱 WhatsApp Group', 'Opening chat link...');
+            window.open('https://chat.whatsapp.com/YourGroupLink', '_blank');
         }
         
-        function addImageToPreview(src, previewDiv) {
-            const imageContainer = document.createElement('div');
-            imageContainer.className = 'image-preview-item';
+        // ===== TOAST NOTIFICATION =====
+        function showToast(title, message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastTitle = document.getElementById('toastTitle');
+            const toastMessage = document.getElementById('toastMessage');
+            const icon = toast.querySelector('.toast-icon i');
             
-            const img = document.createElement('img');
-            img.src = src;
+            toastTitle.textContent = title;
+            toastMessage.textContent = message;
             
-            const removeBtn = document.createElement('span');
-            removeBtn.className = 'remove-image';
-            removeBtn.innerHTML = '×';
-            removeBtn.onclick = function() {
-                imageContainer.remove();
-                saveImagesToStorage();
-            };
-            
-            imageContainer.appendChild(img);
-            imageContainer.appendChild(removeBtn);
-            previewDiv.appendChild(imageContainer);
-        }
-        
-        // Image upload handler
-        function handleImageUpload(event, previewId) {
-            const files = event.target.files;
-            const previewDiv = document.getElementById(previewId);
-            
-            for(let i = 0; i < files.length; i++) {
-                const file = files[i];
-                const reader = new FileReader();
-                
-                reader.onload = function(e) {
-                    addImageToPreview(e.target.result, previewDiv);
-                    saveImagesToStorage();
-                }
-                
-                reader.readAsDataURL(file);
+            if (type === 'error') {
+                icon.className = 'fas fa-exclamation-triangle';
+                toast.style.borderLeftColor = '#ff6b6b';
+            } else {
+                icon.className = 'fas fa-check';
+                toast.style.borderLeftColor = 'var(--msu-gold)';
             }
             
-            event.target.value = '';
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 4000);
         }
         
-        // ===== HELPER FUNCTIONS =====
-        function rsvp(event) {
-            alert(`🎉 Thanks for your interest in ${event}! We'll send details to your WhatsApp. 🚀`);
+        // ===== SIMULATE LIVE UPDATES =====
+        function simulateLiveActivity() {
+            setInterval(() => {
+                // Randomly update online count
+                const change = Math.floor(Math.random() * 5) - 2; // -2 to +2
+                onlineCount = Math.max(10, onlineCount + change);
+                document.getElementById('onlineCount').textContent = onlineCount;
+            }, 10000);
         }
         
-        function joinSeminarGroup() {
-            alert('📱 Seminar WhatsApp Group: Join using link on our Contact page!\n\nOr contact Sean: +263 78 134 0759');
-        }
+        // ===== INITIALIZE =====
+        createMathBackground();
+        simulateLiveActivity();
         
-        function joinGamingGroup() {
-            alert('🎮 Gaming Night WhatsApp Group: Join using link on our Contact page!\n\nEvery Saturday at 7PM - Gweru Central Gaming Cafe');
-        }
-        
-        function notifyMe(activity) {
-            alert(`🔔 We'll notify you when ${activity} dates are set!\n\nCheck your email or WhatsApp for updates.`);
-        }
-        
-        // ===== INITIALIZE ON PAGE LOAD =====
-        document.addEventListener('DOMContentLoaded', function() {
-            updateEventDates();
-            loadImagesFromStorage();
-        });
-        
-        // Save images when page is closed
-        window.addEventListener('beforeunload', function() {
-            saveImagesToStorage();
+        // Add click handlers to all threads
+        document.querySelectorAll('.thread').forEach(thread => {
+            thread.addEventListener('click', function() {
+                const title = this.querySelector('.thread-title').textContent;
+                showToast('📖 Opening Thread', `Loading "${title.substring(0, 30)}..."`);
+            });
         });
     </script>
 </body>
