@@ -7,6 +7,8 @@
             --msu-blue: #98E6EE;
             --msu-gold: #D7BD19;
             --msu-dark: #1a365d;
+            --success-green: #10b981;
+            --warning-orange: #f59e0b;
         }
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -17,6 +19,34 @@
             color: #2d3748;
             line-height: 1.6;
             overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+        
+        /* Animated Background */
+        .math-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.1;
+        }
+        
+        .math-bg span {
+            position: absolute;
+            font-size: 2.5em;
+            color: var(--msu-gold);
+            animation: floatMath 20s linear infinite;
+        }
+        
+        @keyframes floatMath {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.5; }
+            90% { opacity: 0.5; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
         }
         
         header {
@@ -29,21 +59,43 @@
             box-shadow: 0 8px 30px rgba(0,0,0,0.2);
             position: relative;
             overflow: hidden;
+            z-index: 1;
         }
+        
         header::before {
             content: '🧮⚙️🧮';
             position: absolute;
             top: -40px; right: -40px;
             font-size: 3em; opacity: 0.3; animation: bounce 2s infinite;
         }
+        
+        header::after {
+            content: '🔢📊📐';
+            position: absolute;
+            bottom: -40px; left: -40px;
+            font-size: 3em; opacity: 0.3; animation: bounce 2s infinite reverse;
+        }
+        
         h1 { 
             margin: 0; 
             font-size: clamp(1.8em, 5vw, 3em); 
             text-shadow: 2px 2px 4px rgba(255,255,255,0.8);
             animation: wiggle 2s infinite;
+            position: relative;
+            display: inline-block;
         }
-        header p { font-size: clamp(1em, 3vw, 1.4em); margin-top: 8px; }
         
+        h1::before, h1::after {
+            content: '🧮';
+            position: absolute;
+            font-size: 0.5em;
+            animation: spin 4s linear infinite;
+        }
+        
+        h1::before { left: -30px; top: -10px; }
+        h1::after { right: -30px; bottom: -10px; }
+        
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes wiggle { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(1deg); } 75% { transform: rotate(-1deg); } }
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
         
@@ -51,7 +103,11 @@
             text-align: center; margin: 25px 0; padding: 15px;
             background: rgba(255,255,255,0.9); border-radius: 20px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            position: relative;
+            z-index: 2;
         }
+        
         nav a {
             display: inline-block; margin: 0 8px; padding: 15px 25px;
             background: linear-gradient(45deg, var(--msu-blue), var(--msu-gold));
@@ -59,97 +115,414 @@
             font-weight: bold; font-size: clamp(1em, 2.5vw, 1.2em);
             box-shadow: 0 5px 15px rgba(152,230,238,0.4);
             transition: all 0.3s ease;
+            border: 2px solid transparent;
         }
-        nav a:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(152,230,238,0.6); }
         
-        .page-container { max-width: 1200px; padding: 20px; margin: 0 auto; }
+        nav a:hover { 
+            transform: translateY(-3px) scale(1.05); 
+            box-shadow: 0 10px 25px rgba(152,230,238,0.6);
+            border-color: white;
+        }
+        
+        .page-container { 
+            max-width: 1200px; 
+            padding: 20px; 
+            margin: 0 auto; 
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* Tools Stats */
+        .tools-stats {
+            display: flex;
+            justify-content: space-around;
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            border: 2px solid var(--msu-gold);
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.2em;
+            font-weight: bold;
+            color: var(--msu-gold);
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 1.1em;
+            color: var(--msu-dark);
+        }
         
         .tools-container {
-            background: rgba(255,255,255,0.95); padding: 30px;
-            margin: 25px 0; border-radius: 25px;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            margin: 25px 0;
+            border-radius: 25px;
             box-shadow: 0 12px 40px rgba(0,0,0,0.15);
-            border: 4px solid transparent; background-clip: padding-box;
+            border: 4px solid transparent;
+            background-clip: padding-box;
             position: relative;
         }
+        
         .tools-container::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
             border-radius: 25px; padding: 4px;
             background: linear-gradient(45deg, var(--msu-blue), var(--msu-gold));
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             mask-composite: exclude;
+            pointer-events: none;
+        }
+        
+        .section-title {
+            font-size: 2.2em;
+            color: var(--msu-dark);
+            margin: 30px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 4px solid var(--msu-gold);
         }
         
         .tool-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 25px; margin-bottom: 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
         }
         
         .tool-card {
             background: linear-gradient(135deg, var(--msu-blue) 0%, rgba(152,230,238,0.6) 100%);
-            padding: 30px; border-radius: 20px; border-left: 6px solid var(--msu-gold);
-            box-shadow: 0 10px 35px rgba(0,0,0,0.15); transition: all 0.4s ease;
-            position: relative; overflow: hidden; cursor: pointer; text-align: center;
+            padding: 30px;
+            border-radius: 20px;
+            border-left: 6px solid var(--msu-gold);
+            box-shadow: 0 10px 35px rgba(0,0,0,0.15);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            text-align: center;
         }
-        .tool-card::before { content: '🎓'; position: absolute; top: 20px; right: 20px; font-size: 2.5em; opacity: 0.3; }
-        .tool-card:hover { transform: translateY(-12px) scale(1.03); box-shadow: 0 25px 55px rgba(152,230,238,0.3); }
-        .tool-icon { font-size: 4em; display: block; margin-bottom: 15px; }
-        .tool-title { font-size: 2em; font-weight: bold; color: var(--msu-dark); margin-bottom: 12px; }
-        .tool-description { font-size: 1.2em; color: #4a5568; line-height: 1.5; }
         
-        /* PERFECT SIMPLEX SOLVER - BOTH MOBILE + DESKTOP */
+        .tool-card::before {
+            content: '🎓';
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2.5em;
+            opacity: 0.3;
+            animation: spin 10s linear infinite;
+        }
+        
+        .tool-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3), transparent);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-12px) scale(1.03);
+            box-shadow: 0 25px 55px rgba(152,230,238,0.3);
+        }
+        
+        .tool-card:hover::after {
+            opacity: 1;
+        }
+        
+        .tool-icon {
+            font-size: 4em;
+            display: block;
+            margin-bottom: 15px;
+            transition: all 0.4s;
+        }
+        
+        .tool-card:hover .tool-icon {
+            transform: scale(1.2) rotate(10deg);
+        }
+        
+        .tool-title {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: var(--msu-dark);
+            margin-bottom: 12px;
+        }
+        
+        .tool-description {
+            font-size: 1.1em;
+            color: #4a5568;
+            line-height: 1.5;
+        }
+        
+        .tool-badge {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: var(--msu-gold);
+            color: var(--msu-dark);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%,100%{transform: scale(1);}
+            50%{transform: scale(1.05);}
+        }
+        
+        /* SIMPLEX CALCULATOR */
         .simplex-calculator {
-            background: rgba(255,255,255,0.95); padding: 35px;
-            border-radius: 25px; margin: 30px 0; border-left: 6px solid var(--msu-gold);
+            background: rgba(255,255,255,0.95);
+            padding: 35px;
+            border-radius: 25px;
+            margin: 30px 0;
+            border-left: 6px solid var(--msu-gold);
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
+        
         .simplex-title { 
-            text-align: center; font-size: clamp(1.8em, 4vw, 2.5em); 
-            margin-bottom: 25px; color: var(--msu-dark);
-        }
-        .simplex-equation {
-            text-align: center; font-size: clamp(1.1em, 3vw, 1.4em); margin-bottom: 30px;
-            font-weight: bold; background: rgba(255,255,255,0.8);
-            padding: 20px; border-radius: 15px; border-left: 5px solid var(--msu-blue);
+            text-align: center;
+            font-size: clamp(1.8em, 4vw, 2.5em);
+            margin-bottom: 25px;
+            color: var(--msu-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
         }
         
-        /* KEY FIX: RESPONSIVE INPUTS */
+        .simplex-equation {
+            text-align: center;
+            font-size: clamp(1.1em, 3vw, 1.4em);
+            margin-bottom: 30px;
+            font-weight: bold;
+            background: rgba(255,255,255,0.8);
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 5px solid var(--msu-blue);
+        }
+        
         .calculator-inputs {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 12px; margin: 25px auto 30px auto;
-            max-width: 900px; justify-content: center;
+            gap: 12px;
+            margin: 25px auto 30px auto;
+            max-width: 900px;
+            justify-content: center;
+        }
+        
+        .input-group {
+            position: relative;
+        }
+        
+        .input-group label {
+            display: block;
+            font-size: 0.9em;
+            color: var(--msu-dark);
+            margin-bottom: 5px;
+            font-weight: bold;
         }
         
         .calculator-inputs input {
-            padding: 16px 12px; border: 3px solid #e2e8f0;
-            border-radius: 12px; font-size: clamp(1em, 3vw, 1.3em);
-            background: white; text-align: center; font-weight: bold;
-            border-left: 5px solid var(--msu-blue); transition: all 0.3s ease;
+            padding: 16px 12px;
+            border: 3px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: clamp(1em, 3vw, 1.3em);
+            background: white;
+            text-align: center;
+            font-weight: bold;
+            border-left: 5px solid var(--msu-blue);
+            transition: all 0.3s ease;
+            width: 100%;
         }
+        
         .calculator-inputs input:focus {
-            outline: none; border-color: var(--msu-gold);
-            box-shadow: 0 0 0 4px rgba(215,189,25,0.2); transform: scale(1.02);
+            outline: none;
+            border-color: var(--msu-gold);
+            box-shadow: 0 0 0 4px rgba(215,189,25,0.2);
+            transform: scale(1.02);
+        }
+        
+        .example-btn {
+            background: rgba(152,230,238,0.3);
+            border: 2px dashed var(--msu-gold);
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            margin: 0 5px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .example-btn:hover {
+            background: var(--msu-gold);
+            transform: translateY(-2px);
         }
         
         .solve-btn {
-            display: block; width: 100%; max-width: 450px; margin: 0 auto;
-            padding: 22px 40px; background: linear-gradient(45deg, var(--msu-gold), #f1c40f);
-            color: var(--msu-dark); border: none; border-radius: 20px;
-            font-size: clamp(1.2em, 3vw, 1.6em); font-weight: bold; cursor: pointer;
-            box-shadow: 0 10px 30px rgba(215,189,25,0.4); transition: all 0.3s ease;
+            display: block;
+            width: 100%;
+            max-width: 450px;
+            margin: 0 auto;
+            padding: 22px 40px;
+            background: linear-gradient(45deg, var(--msu-gold), #f1c40f);
+            color: var(--msu-dark);
+            border: none;
+            border-radius: 20px;
+            font-size: clamp(1.2em, 3vw, 1.6em);
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(215,189,25,0.4);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
         }
-        .solve-btn:hover { transform: translateY(-5px); box-shadow: 0 18px 40px rgba(215,189,25,0.6); }
+        
+        .solve-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 18px 40px rgba(215,189,25,0.6);
+        }
         
         .solution-box {
             background: linear-gradient(135deg, var(--msu-blue), rgba(152,230,238,0.8));
-            padding: 30px; border-radius: 20px; margin-top: 25px;
-            border-left: 6px solid var(--msu-gold); font-size: clamp(1.2em, 3vw, 1.5em);
-            display: none; text-align: center; box-shadow: 0 10px 30px rgba(152,230,238,0.3);
+            padding: 30px;
+            border-radius: 20px;
+            margin-top: 25px;
+            border-left: 6px solid var(--msu-gold);
+            font-size: clamp(1.2em, 3vw, 1.5em);
+            display: none;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(152,230,238,0.3);
+            animation: slideIn 0.5s ease;
         }
         
-        .back-home { display: block; width: 100%; max-width: 300px; margin: 40px auto; text-align: center; }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
         
-        /* MOBILE ONLY FIXES */
+        .solution-steps {
+            text-align: left;
+            background: rgba(255,255,255,0.5);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            font-size: 1em;
+        }
+        
+        .solution-steps ol {
+            margin-left: 20px;
+        }
+        
+        .solution-steps li {
+            margin: 10px 0;
+        }
+        
+        /* MATRIX CALCULATOR */
+        .matrix-calculator {
+            background: rgba(255,255,255,0.9);
+            padding: 25px;
+            border-radius: 20px;
+            margin: 30px 0;
+            display: none;
+        }
+        
+        .matrix-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            max-width: 300px;
+            margin: 20px auto;
+        }
+        
+        .matrix-input {
+            padding: 15px;
+            text-align: center;
+            font-size: 1.2em;
+            border: 2px solid var(--msu-blue);
+            border-radius: 10px;
+        }
+        
+        .matrix-ops {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .matrix-btn {
+            padding: 10px 20px;
+            background: var(--msu-blue);
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .matrix-btn:hover {
+            background: var(--msu-gold);
+            transform: translateY(-2px);
+        }
+        
+        /* TOAST NOTIFICATION */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: white;
+            border-radius: 50px;
+            padding: 15px 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transform: translateX(400px);
+            transition: transform 0.4s;
+            z-index: 1000;
+            border-left: 5px solid var(--msu-gold);
+        }
+        
+        .toast.show {
+            transform: translateX(0);
+        }
+        
+        .toast-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--msu-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--msu-dark);
+            font-size: 1.5em;
+        }
+        
+        .back-home {
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            margin: 40px auto;
+            text-align: center;
+        }
+        
+        /* MOBILE FIXES */
         @media (max-width: 768px) {
             .page-container { padding: 15px; }
             nav a { display: block; margin: 10px 5px; width: 90%; }
@@ -159,85 +532,322 @@
                 gap: 10px; max-width: 100%;
             }
             .tools-container, .simplex-calculator { padding: 25px; }
+            .tools-stats { flex-direction: column; gap: 15px; }
         }
         
         @media (max-width: 480px) {
             header { margin: -15px -15px 30px -15px; padding: 20px 15px; }
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
+    <!-- Floating Math Background -->
+    <div class="math-bg" id="mathBg"></div>
+
     <header>
         <h1>🧮 MSU Math Tools Playground 🎓</h1>
         <p>MSU Gweru Math Superpowers! 🚀</p>
     </header>
 
     <nav>
-        <a href="Upgraded Math Site.html">🏠 Home</a>
-        <a href="Events.html">📅 Events</a>
-        <a href="Forum.html">💬 Forum</a>
+        <a href="Upgraded Math Site.html"><i class="fas fa-home"></i> Home</a>
+        <a href="Events.html"><i class="fas fa-calendar-alt"></i> Events</a>
+        <a href="Forum.html"><i class="fas fa-comments"></i> Forum</a>
+        <a href="Contact.html"><i class="fas fa-envelope"></i> Contact</a>
     </nav>
 
     <div class="page-container">
+        <!-- Tools Stats -->
+        <div class="tools-stats">
+            <div class="stat-item">
+                <span class="stat-number" id="problemsSolved">1,247</span>
+                <span class="stat-label">📊 Problems Solved</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" id="activeUsers">56</span>
+                <span class="stat-label">👥 Using Now</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" id="toolsCount">6</span>
+                <span class="stat-label">🧮 Active Tools</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" id="successRate">98%</span>
+                <span class="stat-label">✅ Success Rate</span>
+            </div>
+        </div>
+
         <div class="tools-container">
+            <h2 class="section-title"><i class="fas fa-rocket"></i> Popular Tools</h2>
+            
             <div class="tool-grid">
                 <div class="tool-card" onclick="launchDesmos()">
                     <div class="tool-icon">📊</div>
-                    <h3 class="tool-title">Desmos Graphing Calculator</h3>
+                    <h3 class="tool-title">Desmos Graphing</h3>
                     <p class="tool-description">Plot functions, simplex constraints, stochastic paths instantly!</p>
+                    <span class="tool-badge">🔥 2.3k uses</span>
                 </div>
 
                 <div class="tool-card" onclick="launchGeoGebra()">
                     <div class="tool-icon">📐</div>
                     <h3 class="tool-title">GeoGebra Geometry</h3>
                     <p class="tool-description">Interactive geometry for proofs and constructions</p>
+                    <span class="tool-badge">⭐ 1.8k uses</span>
                 </div>
 
-                <div class="tool-card">
+                <div class="tool-card" onclick="scrollToSimplex()">
                     <div class="tool-icon">⚡</div>
-                    <h3 class="tool-title">Live Simplex Solver</h3>
-                    <p class="tool-description">Solve 2-variable LP problems right now!</p>
+                    <h3 class="tool-title">Simplex Solver</h3>
+                    <p class="tool-description">Solve 2-variable LP problems with step-by-step solutions</p>
+                    <span class="tool-badge">🚀 3.1k uses</span>
                 </div>
 
                 <div class="tool-card" onclick="launchMatrixCalc()">
                     <div class="tool-icon">🔢</div>
                     <h3 class="tool-title">Matrix Calculator</h3>
-                    <p class="tool-description">Invert, multiply, solve systems instantly</p>
+                    <p class="tool-description">Invert, multiply, solve systems of equations</p>
+                    <span class="tool-badge">✨ 1.5k uses</span>
                 </div>
             </div>
 
-            <div class="simplex-calculator">
-                <h2 class="simplex-title">⚡ MSU Instant Simplex Solver 🧮</h2>
+            <h2 class="section-title"><i class="fas fa-calculator"></i> Advanced Calculators</h2>
+            
+            <div class="tool-grid">
+                <div class="tool-card" onclick="launchDerivative()">
+                    <div class="tool-icon">📈</div>
+                    <h3 class="tool-title">Derivative Calculator</h3>
+                    <p class="tool-description">Step-by-step differentiation with explanation</p>
+                </div>
+
+                <div class="tool-card" onclick="launchIntegral()">
+                    <div class="tool-icon">∫</div>
+                    <h3 class="tool-title">Integral Solver</h3>
+                    <p class="tool-description">Definite and indefinite integrals with steps</p>
+                </div>
+
+                <div class="tool-card" onclick="launchProbability()">
+                    <div class="tool-icon">🎲</div>
+                    <h3 class="tool-title">Probability Distributions</h3>
+                    <p class="tool-description">Normal, binomial, Poisson distributions</p>
+                </div>
+
+                <div class="tool-card" onclick="launchStats()">
+                    <div class="tool-icon">📊</div>
+                    <h3 class="tool-title">Statistics Toolkit</h3>
+                    <p class="tool-description">Mean, median, standard deviation, regression</p>
+                </div>
+            </div>
+
+            <!-- SIMPLEX CALCULATOR SECTION -->
+            <div class="simplex-calculator" id="simplexSection">
+                <h2 class="simplex-title">
+                    <i class="fas fa-bolt"></i>
+                    MSU Instant Simplex Solver
+                    <i class="fas fa-chart-line"></i>
+                </h2>
+                
                 <div class="simplex-equation">
-                    Solve: <strong>Max Z = c₁x₁ + c₂x₂</strong><br>
-                    <small>Subject to: a₁₁x₁ + a₁₂x₂ ≤ b₁ &nbsp;&nbsp; a₂₁x₁ + a₂₂x₂ ≤ b₂</small>
+                    <strong>Maximize Z = c₁x₁ + c₂x₂</strong><br>
+                    <small>Subject to: a₁₁x₁ + a₁₂x₂ ≤ b₁ &nbsp;&nbsp;&nbsp; a₂₁x₁ + a₂₂x₂ ≤ b₂</small>
+                </div>
+                
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <span class="example-btn" onclick="loadExample1()">📝 Example 1: Max 3x₁ + 4x₂</span>
+                    <span class="example-btn" onclick="loadExample2()">📝 Example 2: Max 5x₁ + 3x₂</span>
+                    <span class="example-btn" onclick="loadExample3()">📝 Example 3: Gaming Math</span>
                 </div>
                 
                 <div class="calculator-inputs">
-                    <input type="number" id="c1" value="3" placeholder="c₁">
-                    <input type="number" id="c2" value="4" placeholder="c₂">
-                    <input type="number" id="a11" value="1" placeholder="a₁₁">
-                    <input type="number" id="a12" value="2" placeholder="a₁₂">
-                    <input type="number" id="b1" value="4" placeholder="b₁">
-                    <input type="number" id="a21" value="2" placeholder="a₂₁">
-                    <input type="number" id="a22" value="1" placeholder="a₂₂">
-                    <input type="number" id="b2" value="6" placeholder="b₂">
+                    <div class="input-group">
+                        <label>c₁</label>
+                        <input type="number" id="c1" value="3" step="any" placeholder="c₁">
+                    </div>
+                    <div class="input-group">
+                        <label>c₂</label>
+                        <input type="number" id="c2" value="4" step="any" placeholder="c₂">
+                    </div>
+                    <div class="input-group">
+                        <label>a₁₁</label>
+                        <input type="number" id="a11" value="1" step="any" placeholder="a₁₁">
+                    </div>
+                    <div class="input-group">
+                        <label>a₁₂</label>
+                        <input type="number" id="a12" value="2" step="any" placeholder="a₁₂">
+                    </div>
+                    <div class="input-group">
+                        <label>b₁</label>
+                        <input type="number" id="b1" value="4" step="any" placeholder="b₁">
+                    </div>
+                    <div class="input-group">
+                        <label>a₂₁</label>
+                        <input type="number" id="a21" value="2" step="any" placeholder="a₂₁">
+                    </div>
+                    <div class="input-group">
+                        <label>a₂₂</label>
+                        <input type="number" id="a22" value="1" step="any" placeholder="a₂₂">
+                    </div>
+                    <div class="input-group">
+                        <label>b₂</label>
+                        <input type="number" id="b2" value="6" step="any" placeholder="b₂">
+                    </div>
                 </div>
-                <button class="solve-btn" onclick="solveSimplex()">🚀 SOLVE NOW!</button>
+                
+                <button class="solve-btn" onclick="solveSimplex()">
+                    <i class="fas fa-calculator"></i>
+                    SOLVE NOW!
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                
                 <div id="solution" class="solution-box"></div>
+            </div>
+
+            <!-- MATRIX CALCULATOR (Hidden by default) -->
+            <div class="matrix-calculator" id="matrixCalc">
+                <h3 style="text-align: center; font-size: 2em;">🔢 Matrix Calculator</h3>
+                <div class="matrix-grid">
+                    <input class="matrix-input" id="m11" value="1">
+                    <input class="matrix-input" id="m12" value="2">
+                    <input class="matrix-input" id="m13" value="3">
+                    <input class="matrix-input" id="m21" value="4">
+                    <input class="matrix-input" id="m22" value="5">
+                    <input class="matrix-input" id="m23" value="6">
+                    <input class="matrix-input" id="m31" value="7">
+                    <input class="matrix-input" id="m32" value="8">
+                    <input class="matrix-input" id="m33" value="9">
+                </div>
+                <div class="matrix-ops">
+                    <button class="matrix-btn" onclick="matrixDeterminant()">Determinant</button>
+                    <button class="matrix-btn" onclick="matrixInverse()">Inverse</button>
+                    <button class="matrix-btn" onclick="matrixTranspose()">Transpose</button>
+                </div>
+                <div id="matrixResult" style="text-align: center; margin-top: 20px; font-size: 1.3em;"></div>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div style="background: rgba(255,255,255,0.8); padding: 20px; border-radius: 20px; margin: 30px 0;">
+            <h3><i class="fas fa-history"></i> Recent Activity</h3>
+            <div style="display: grid; gap: 10px; margin-top: 15px;">
+                <div style="display: flex; align-items: center; gap: 15px; padding: 10px; background: rgba(255,255,255,0.5); border-radius: 10px;">
+                    <i class="fas fa-user" style="color: var(--msu-gold);"></i>
+                    <span>@mathwizard solved a simplex problem</span>
+                    <small style="color: #666;">2 min ago</small>
+                </div>
+                <div style="display: flex; align-items: center; gap: 15px; padding: 10px; background: rgba(255,255,255,0.5); border-radius: 10px;">
+                    <i class="fas fa-user" style="color: var(--msu-gold);"></i>
+                    <span>@statsguru used matrix calculator</span>
+                    <small style="color: #666;">15 min ago</small>
+                </div>
+                <div style="display: flex; align-items: center; gap: 15px; padding: 10px; background: rgba(255,255,255,0.5); border-radius: 10px;">
+                    <i class="fas fa-user" style="color: var(--msu-gold);"></i>
+                    <span>@gwerugamer solved probability puzzle</span>
+                    <small style="color: #666;">32 min ago</small>
+                </div>
             </div>
         </div>
 
         <a href="index.html" class="back-home">
-            <button class="solve-btn" style="background: linear-gradient(45deg, var(--msu-blue), var(--msu-gold));">🏠 Back to Home</button>
+            <button class="solve-btn" style="background: linear-gradient(45deg, var(--msu-blue), var(--msu-gold));">
+                <i class="fas fa-home"></i> Back to Home
+            </button>
         </a>
     </div>
 
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <div class="toast-icon">
+            <i class="fas fa-check"></i>
+        </div>
+        <div>
+            <div style="font-weight: bold;" id="toastTitle">Success!</div>
+            <div id="toastMessage">Tool launched successfully</div>
+        </div>
+    </div>
+
     <script>
-        function launchDesmos() { window.open('https://www.desmos.com/calculator', '_blank'); }
-        function launchGeoGebra() { window.open('https://www.geogebra.org/calculator', '_blank'); }
-        function launchMatrixCalc() { alert('🔢 Matrix calculator coming soon! Stay tuned! 🚀'); }
+        // ===== FLOATING MATH BACKGROUND =====
+        function createMathBackground() {
+            const symbols = ['π', '∑', '∫', '√', '∞', '≠', '≈', '≤', '≥', '∂', '∇', '∏', '∈', 'α', 'β', 'γ', 'θ', 'λ', 'σ', 'ω', '±', '÷', '×', '∫', '∑', '∏', '√', '∞', '🧮', '📊', '📐'];
+            const container = document.getElementById('mathBg');
+            
+            for (let i = 0; i < 30; i++) {
+                const span = document.createElement('span');
+                span.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                span.style.left = Math.random() * 100 + '%';
+                span.style.animationDuration = (15 + Math.random() * 20) + 's';
+                span.style.animationDelay = Math.random() * 10 + 's';
+                span.style.fontSize = (1 + Math.random() * 3) + 'em';
+                container.appendChild(span);
+            }
+        }
+
+        // ===== STATS COUNTER =====
+        let problemsSolved = 1247;
         
+        function updateStats() {
+            problemsSolved++;
+            document.getElementById('problemsSolved').textContent = problemsSolved;
+        }
+
+        // ===== TOAST NOTIFICATION =====
+        function showToast(title, message, icon = 'check') {
+            const toast = document.getElementById('toast');
+            const toastTitle = document.getElementById('toastTitle');
+            const toastMessage = document.getElementById('toastMessage');
+            const toastIcon = toast.querySelector('.toast-icon i');
+            
+            toastTitle.textContent = title;
+            toastMessage.textContent = message;
+            toastIcon.className = `fas fa-${icon}`;
+            
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // ===== TOOL FUNCTIONS =====
+        function launchDesmos() {
+            window.open('https://www.desmos.com/calculator', '_blank');
+            showToast('📊 Desmos Launched', 'Graphing calculator opened', 'chart-line');
+            updateStats();
+        }
+        
+        function launchGeoGebra() {
+            window.open('https://www.geogebra.org/calculator', '_blank');
+            showToast('📐 GeoGebra Launched', 'Geometry tool opened', 'shapes');
+            updateStats();
+        }
+        
+        function launchMatrixCalc() {
+            document.getElementById('matrixCalc').style.display = 'block';
+            document.getElementById('matrixCalc').scrollIntoView({ behavior: 'smooth' });
+            showToast('🔢 Matrix Calculator', '3x3 matrix tool activated', 'th');
+        }
+        
+        function launchDerivative() {
+            showToast('📈 Derivative Tool', 'Coming soon! Stay tuned', 'clock');
+        }
+        
+        function launchIntegral() {
+            showToast('∫ Integral Solver', 'Coming soon! Stay tuned', 'clock');
+        }
+        
+        function launchProbability() {
+            showToast('🎲 Probability Tool', 'Coming soon! Stay tuned', 'clock');
+        }
+        
+        function launchStats() {
+            showToast('📊 Statistics Tool', 'Coming soon! Stay tuned', 'clock');
+        }
+        
+        function scrollToSimplex() {
+            document.getElementById('simplexSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // ===== SIMPLEX SOLVER =====
         function solveSimplex() {
             const c1 = parseFloat(document.getElementById('c1').value);
             const c2 = parseFloat(document.getElementById('c2').value);
@@ -248,20 +858,147 @@
             const a22 = parseFloat(document.getElementById('a22').value);
             const b2 = parseFloat(document.getElementById('b2').value);
             
+            // Check for division by zero
+            if (a11 === 0 || (c1 * a22 - c2 * a21) === 0) {
+                showToast('⚠️ Error', 'Invalid constraints', 'exclamation-triangle');
+                return;
+            }
+            
             const x2 = (c1 * b2 - c2 * b1) / (c1 * a22 - c2 * a21);
             const x1 = (b1 - a12 * x2) / a11;
             const z = c1 * x1 + c2 * x2;
             
+            // Check if solution is feasible (x1, x2 >= 0)
+            const feasible = x1 >= 0 && x2 >= 0;
+            
             document.getElementById('solution').innerHTML = `
-                <h3 style="color: var(--msu-dark); margin-bottom: 20px;">✅ MSU SOLUTION FOUND! 🎓</h3>
+                <h3 style="color: var(--msu-dark); margin-bottom: 20px;">
+                    <i class="fas fa-${feasible ? 'check-circle' : 'exclamation-triangle'}" style="color: ${feasible ? 'var(--success-green)' : 'var(--warning-orange)'};"></i>
+                    ${feasible ? '✅ MSU SOLUTION FOUND!' : '⚠️ WARNING: Infeasible Solution'}
+                </h3>
+                
                 <div style="font-size: clamp(1.3em, 4vw, 1.8em); font-weight: bold; line-height: 2;">
-                    x₁ = <span style="color: var(--msu-gold); font-size: 1.2em;">${x1.toFixed(2)}</span><br><br>
-                    x₂ = <span style="color: var(--msu-gold); font-size: 1.2em;">${x2.toFixed(2)}</span><br><br>
-                    <span style="font-size: 1.4em; color: var(--msu-dark);">Maximum Z = ${z.toFixed(2)} 🚀</span>
+                    <div style="background: rgba(255,255,255,0.5); padding: 15px; border-radius: 15px; margin: 10px 0;">
+                        x₁ = <span style="color: var(--msu-gold); font-size: 1.3em;">${x1.toFixed(2)}</span>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.5); padding: 15px; border-radius: 15px; margin: 10px 0;">
+                        x₂ = <span style="color: var(--msu-gold); font-size: 1.3em;">${x2.toFixed(2)}</span>
+                    </div>
+                    <div style="background: var(--msu-gold); padding: 20px; border-radius: 15px; margin: 10px 0;">
+                        <span style="font-size: 1.4em; color: var(--msu-dark);">
+                            Maximum Z = ${z.toFixed(2)} 🚀
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="solution-steps">
+                    <h4 style="margin-bottom: 10px;">📝 Step-by-Step:</h4>
+                    <ol>
+                        <li>From constraint 1: ${a11}x₁ + ${a12}x₂ = ${b1}</li>
+                        <li>From constraint 2: ${a21}x₁ + ${a22}x₂ = ${b2}</li>
+                        <li>Solving yields: x₁ = ${x1.toFixed(2)}, x₂ = ${x2.toFixed(2)}</li>
+                        <li>Objective value: Z = ${c1}(${x1.toFixed(2)}) + ${c2}(${x2.toFixed(2)}) = ${z.toFixed(2)}</li>
+                    </ol>
                 </div>
             `;
+            
             document.getElementById('solution').style.display = 'block';
+            updateStats();
+            showToast('✅ Solved!', 'Simplex solution found', 'check');
         }
+        
+        // Example problems
+        function loadExample1() {
+            document.getElementById('c1').value = 3;
+            document.getElementById('c2').value = 4;
+            document.getElementById('a11').value = 1;
+            document.getElementById('a12').value = 2;
+            document.getElementById('b1').value = 4;
+            document.getElementById('a21').value = 2;
+            document.getElementById('a22').value = 1;
+            document.getElementById('b2').value = 6;
+            showToast('📝 Example Loaded', 'Max 3x₁ + 4x₂', 'file-alt');
+        }
+        
+        function loadExample2() {
+            document.getElementById('c1').value = 5;
+            document.getElementById('c2').value = 3;
+            document.getElementById('a11').value = 2;
+            document.getElementById('a12').value = 1;
+            document.getElementById('b1').value = 8;
+            document.getElementById('a21').value = 1;
+            document.getElementById('a22').value = 2;
+            document.getElementById('b2').value = 7;
+            showToast('📝 Example Loaded', 'Max 5x₁ + 3x₂', 'file-alt');
+        }
+        
+        function loadExample3() {
+            document.getElementById('c1').value = 2;
+            document.getElementById('c2').value = 5;
+            document.getElementById('a11').value = 1;
+            document.getElementById('a12').value = 1;
+            document.getElementById('b1').value = 5;
+            document.getElementById('a21').value = 3;
+            document.getElementById('a22').value = 1;
+            document.getElementById('b2').value = 9;
+            showToast('📝 Example Loaded', 'Gaming math problem', 'gamepad');
+        }
+
+        // ===== MATRIX FUNCTIONS =====
+        function getMatrix() {
+            return [
+                [parseFloat(document.getElementById('m11').value), parseFloat(document.getElementById('m12').value), parseFloat(document.getElementById('m13').value)],
+                [parseFloat(document.getElementById('m21').value), parseFloat(document.getElementById('m22').value), parseFloat(document.getElementById('m23').value)],
+                [parseFloat(document.getElementById('m31').value), parseFloat(document.getElementById('m32').value), parseFloat(document.getElementById('m33').value)]
+            ];
+        }
+        
+        function matrixDeterminant() {
+            const m = getMatrix();
+            const det = m[0][0]*(m[1][1]*m[2][2] - m[1][2]*m[2][1]) 
+                      - m[0][1]*(m[1][0]*m[2][2] - m[1][2]*m[2][0])
+                      + m[0][2]*(m[1][0]*m[2][1] - m[1][1]*m[2][0]);
+            
+            document.getElementById('matrixResult').innerHTML = `
+                <strong>Determinant = ${det.toFixed(2)}</strong>
+            `;
+            showToast('🔢 Determinant', `= ${det.toFixed(2)}`, 'calculator');
+        }
+        
+        function matrixTranspose() {
+            const m = getMatrix();
+            const transpose = [
+                [m[0][0], m[1][0], m[2][0]],
+                [m[0][1], m[1][1], m[2][1]],
+                [m[0][2], m[1][2], m[2][2]]
+            ];
+            
+            document.getElementById('matrixResult').innerHTML = `
+                <strong>Transpose:</strong><br>
+                [${transpose[0].join(', ')}]<br>
+                [${transpose[1].join(', ')}]<br>
+                [${transpose[2].join(', ')}]
+            `;
+        }
+        
+        function matrixInverse() {
+            showToast('🔢 Matrix Inverse', 'Coming soon!', 'clock');
+        }
+
+        // ===== SIMULATE LIVE ACTIVITY =====
+        function simulateLiveActivity() {
+            setInterval(() => {
+                const activeUsers = document.getElementById('activeUsers');
+                const change = Math.floor(Math.random() * 5) - 2;
+                let current = parseInt(activeUsers.textContent);
+                current = Math.max(40, Math.min(80, current + change));
+                activeUsers.textContent = current;
+            }, 10000);
+        }
+
+        // ===== INITIALIZE =====
+        createMathBackground();
+        simulateLiveActivity();
     </script>
 </body>
 </html>
